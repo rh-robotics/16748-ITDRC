@@ -10,8 +10,8 @@ import org.firstinspires.ftc.teamcode.subsystems.HWC;
 /**
  * TeleOp OpMode for simply driving with strafing wheels
  */
-@TeleOp(name = "Basic Strafe Drive", group = "Iterative OpMode")
-public class StrafeDrive extends OpMode {
+@TeleOp(name = "Club Fair Drive", group = "Iterative OpMode")
+public class ClubDrive extends OpMode {
     private final ElapsedTime time = new ElapsedTime();
     HWC robot; // Declare the object for HWC, will allow us to access all the motors declared there!
 
@@ -50,6 +50,14 @@ public class StrafeDrive extends OpMode {
         double drive = -gamepad1.left_stick_x * 0.8;
         double turn = gamepad1.left_stick_y * 0.6;
         double strafe = -gamepad1.right_stick_x * 0.8;
+
+        if (gamepad1.left_trigger > 0){
+            robot.kicker.setPower(-gamepad1.left_trigger);
+        }
+        else{
+            robot.kicker.setPower(0.2);
+        }
+
 
         // Calculate drive power
         if (drive != 0 || turn != 0) {

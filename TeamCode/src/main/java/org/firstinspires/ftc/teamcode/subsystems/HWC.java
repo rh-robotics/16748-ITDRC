@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import androidx.annotation.NonNull;
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -16,6 +17,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class HWC {
     // Declare empty variables for robot hardware
     public DcMotorEx leftFront, rightFront, leftRear, rightRear;
+    public CRServo kicker;
 
     // Other Variables
     Telemetry telemetry;
@@ -35,6 +37,9 @@ public class HWC {
         rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
         leftRear = hardwareMap.get(DcMotorEx.class, "leftRear");
         rightRear = hardwareMap.get(DcMotorEx.class, "rightRear");
+
+        //Declare Servos
+        kicker = hardwareMap.get(CRServo.class, "kicker");
 
         // Set the direction of motors
         // TODO: UPDATE VALUES WITH NEW BOT
