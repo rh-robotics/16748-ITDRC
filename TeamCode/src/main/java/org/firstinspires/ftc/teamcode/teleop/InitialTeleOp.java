@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.subsystems.HWC;
 public class InitialTeleOp extends OpMode {
     private final ElapsedTime time = new ElapsedTime();
     HWC robot; // Declare the object for HWC, will allow us to access all the motors declared there!
-    TeleOpStates state; //Creates object of states enum
+    TeleOpStates state; // Creates object of states enum
     // init() Runs ONCE after the driver hits initialize
     @Override
     public void init() {
@@ -87,7 +87,6 @@ public class InitialTeleOp extends OpMode {
                 break;
 
             case DRIVE:
-
                 break;
 
             case INTAKE_SAMPLE:
@@ -120,12 +119,5 @@ public class InitialTeleOp extends OpMode {
 
         telemetry.addData("State", state);
         telemetry.update();
-
     }
-
-
-
-
-
-
 }

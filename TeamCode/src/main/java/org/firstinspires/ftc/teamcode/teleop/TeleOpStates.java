@@ -10,5 +10,5 @@ public enum TeleOpStates {
     CLIMB_TWO,
     START,
     END,
-    UNKNOWN;
+    UNKNOWN
 }
