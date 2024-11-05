@@ -81,6 +81,16 @@ public class InitialTeleOp extends OpMode {
                 }
                 break;
         }
+        telemetry.addData("Press A to start changing turn speed", "");
+        telemetry.addData("Press B to start changing drive speed", "");
+        telemetry.addData("Press X to start changing strafe speed", "");
+        telemetry.addLine();
+        telemetry.addData("Modifying", selection);
+        telemetry.addLine();
+        telemetry.addData("Turn Speed", turnSpeed);
+        telemetry.addData("Drive Speed", driveSpeed);
+        telemetry.addData("Strafe Speed", strafeSpeed);
+        telemetry.update();
     }
 
 
@@ -101,8 +111,8 @@ public class InitialTeleOp extends OpMode {
 
 
         // Calculate drive power
-        double drive = -robot.currentGamepad1.left_stick_y;
-        double strafe = robot.currentGamepad1.left_stick_x;
+        double drive = -robot.currentGamepad1.left_stick_y * driveSpeed;
+        double strafe = robot.currentGamepad1.left_stick_x * strafeSpeed;
         double turn = (robot.currentGamepad1.left_trigger - robot.currentGamepad1.right_trigger) * turnSpeed;
 
         double denominator = Math.max(Math.abs(drive) + Math.abs(strafe) + Math.abs(turn), 1);
@@ -155,6 +165,14 @@ public class InitialTeleOp extends OpMode {
         }
 
         telemetry.addData("State", state);
+        telemetry.addData("Right Front", rightFPower);
+        telemetry.addData("Left Front", leftFPower);
+        telemetry.addData("Right Back", rightBPower);
+        telemetry.addData("Left Back", leftBPower);
+        telemetry.addLine();
+       // telemetry.addData("", driveSpeed);
+        //telemetry.addData("Strafe Speed", strafeSpeed);
+        telemetry.update();
         telemetry.update();
     }
 }
