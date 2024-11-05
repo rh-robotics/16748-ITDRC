@@ -16,6 +16,15 @@ public class InitialTeleOp extends OpMode {
     private final ElapsedTime time = new ElapsedTime();
     HWC robot; // Declare the object for HWC, will allow us to access all the motors declared there!
     TeleOpStates state; // Creates object of states enum
+    public enum MultiplierSelection {
+        TURN_SPEED,
+        DRIVE_SPEED,
+        STRAFE_SPEED
+    }
+    private MultiplierSelection selection = MultiplierSelection.TURN_SPEED;
+    private double turnSpeed = 0.5; // Speed multiplier for turning
+    private double driveSpeed = 1; // Speed multiplier for driving
+    private double strafeSpeed = 0.8; // Speed multiplier for strafing
     // init() Runs ONCE after the driver hits initialize
     @Override
     public void init() {
@@ -30,13 +39,51 @@ public class InitialTeleOp extends OpMode {
         telemetry.addData("Status", "Initialized");
 
         // Creates States
-       state = TeleOpStates.START;
+        state = TeleOpStates.START;
     }
 
     // init_loop() - Runs continuously until the driver hits play
     @Override
     public void init_loop() {
+        robot.previousGamepad1.copy(robot.currentGamepad1);
+        robot.currentGamepad1.copy(gamepad1);
+
+        // ------ Speed Multiplier Selection ------ //
+        if (robot.currentGamepad1.a && !robot.previousGamepad1.a) {
+            selection = MultiplierSelection.TURN_SPEED;
+        } else if (robot.currentGamepad1.b && !robot.previousGamepad1.b) {
+            selection = MultiplierSelection.DRIVE_SPEED;
+        } else if (robot.currentGamepad1.x && !robot.previousGamepad1.x) {
+            selection = MultiplierSelection.STRAFE_SPEED;
+        }
+
+        // ------ Speed Multiplier Changes ------ //
+        switch (selection) {
+            case TURN_SPEED:
+                if (robot.currentGamepad1.dpad_up && !robot.previousGamepad1.dpad_up) {
+                    turnSpeed += 0.1;
+                } else if (robot.currentGamepad1.dpad_down && !robot.previousGamepad1.dpad_down) {
+                    turnSpeed -= 0.1;
+                }
+                break;
+            case DRIVE_SPEED:
+                if (robot.currentGamepad1.dpad_up && !robot.previousGamepad1.dpad_up) {
+                    driveSpeed += 0.1;
+                } else if (robot.currentGamepad1.dpad_down && !robot.previousGamepad1.dpad_down) {
+                    driveSpeed -= 0.1;
+                }
+                break;
+            case STRAFE_SPEED:
+                if (robot.currentGamepad1.dpad_up && !robot.previousGamepad1.dpad_up) {
+                    strafeSpeed += 0.1;
+                } else if (robot.currentGamepad1.dpad_down && !robot.previousGamepad1.dpad_down) {
+                    strafeSpeed -= 0.1;
+                }
+                break;
+        }
     }
+
+
 
     // Start() - Runs ONCE when the driver presses play
     @Override
@@ -51,28 +98,18 @@ public class InitialTeleOp extends OpMode {
         double rightFPower;
         double leftBPower;
         double rightBPower;
-        double drive = -gamepad1.left_stick_x * 0.8;
-        double turn = gamepad1.left_stick_y * 0.6;
-        double strafe = -gamepad1.right_stick_x * 0.8;
+
 
         // Calculate drive power
-        if (drive != 0 || turn != 0) {
-            leftFPower = Range.clip(drive + turn, -1.0, 1.0);
-            rightFPower = Range.clip(drive - turn, -1.0, 1.0);
-            leftBPower = Range.clip(drive + turn, -1.0, 1.0);
-            rightBPower = Range.clip(drive - turn, -1.0, 1.0);
-        } else if (strafe != 0) {
-            // Strafing
-            leftFPower = -strafe;
-            rightFPower = strafe;
-            leftBPower = strafe;
-            rightBPower = -strafe;
-        } else {
-            leftFPower = 0;
-            rightFPower = 0;
-            leftBPower = 0;
-            rightBPower = 0;
-        }
+        double drive = -robot.currentGamepad1.left_stick_y;
+        double strafe = robot.currentGamepad1.left_stick_x;
+        double turn = (robot.currentGamepad1.left_trigger - robot.currentGamepad1.right_trigger) * turnSpeed;
+
+        double denominator = Math.max(Math.abs(drive) + Math.abs(strafe) + Math.abs(turn), 1);
+        leftFPower = (turn - strafe - drive) / denominator;
+        leftBPower = (turn + strafe - drive) / denominator;
+        rightFPower = (turn - strafe + drive) / denominator;
+        rightBPower = (turn + strafe + drive) / denominator;
 
         // Set power to values calculated above
         robot.leftFront.setPower(leftFPower);
