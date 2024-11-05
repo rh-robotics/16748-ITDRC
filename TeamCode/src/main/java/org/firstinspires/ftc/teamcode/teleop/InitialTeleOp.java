@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.subsystems.HWC;
  * TeleOp OpMode for simply driving with strafing wheels
  * Look at JAVA DOC!
  */
-@TeleOp(name = "Basic Strafe Drive", group = "Iterative OpMode")
+@TeleOp(name = "INIT TELEOP", group = "Iterative OpMode")
 public class InitialTeleOp extends OpMode {
     private final ElapsedTime time = new ElapsedTime();
     HWC robot; // Declare the object for HWC, will allow us to access all the motors declared there!
@@ -108,7 +108,8 @@ public class InitialTeleOp extends OpMode {
         double rightFPower;
         double leftBPower;
         double rightBPower;
-
+        robot.previousGamepad1.copy(robot.currentGamepad1);
+        robot.currentGamepad1.copy(gamepad1);
 
         // Calculate drive power
         double drive = -robot.currentGamepad1.left_stick_y * driveSpeed;

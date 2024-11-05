@@ -33,6 +33,8 @@ public class StrafeDrive extends OpMode {
     // init_loop() - Runs continuously until the driver hits play
     @Override
     public void init_loop() {
+        robot.previousGamepad1.copy(robot.currentGamepad1);
+        robot.currentGamepad1.copy(gamepad1);
     }
 
     // Start() - Runs ONCE when the driver presses play
@@ -44,6 +46,8 @@ public class StrafeDrive extends OpMode {
     // loop() - Runs continuously while the OpMode is active
     @Override
     public void loop() {
+        robot.previousGamepad1.copy(robot.currentGamepad1);
+        robot.currentGamepad1.copy(gamepad1);
         double leftFPower;
         double rightFPower;
         double leftBPower;
@@ -76,5 +80,7 @@ public class StrafeDrive extends OpMode {
         robot.leftRear.setPower(leftBPower);
         robot.rightFront.setPower(rightFPower);
         robot.rightRear.setPower(rightBPower);
+
+
     }
 }
