@@ -2,10 +2,13 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import androidx.annotation.NonNull;
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -15,9 +18,18 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  */
 public class HWC {
     // Declare empty variables for robot hardware
-    public DcMotorEx leftFront, rightFront, leftRear, rightRear;
+    public DcMotorEx leftFront, rightFront, leftRear, rightRear, rightSlide, leftSlide;
+    //TODO: CHANGE TO NORMAL SERVO
+    public Servo claw;
+
 
     // Other Variables
+    // ------ Declare Gamepads ------ //
+    public Gamepad currentGamepad1 = new Gamepad();
+    public Gamepad currentGamepad2 = new Gamepad();
+    public Gamepad previousGamepad1 = new Gamepad();
+    public Gamepad previousGamepad2 = new Gamepad();
+
     Telemetry telemetry;
     ElapsedTime time = new ElapsedTime();
 
@@ -30,11 +42,21 @@ public class HWC {
     public HWC(@NonNull HardwareMap hardwareMap, Telemetry telemetry) {
         this.telemetry = telemetry;
 
-        // Declare motors
+        // Declare Driving motors
         leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
         rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
         leftRear = hardwareMap.get(DcMotorEx.class, "leftRear");
         rightRear = hardwareMap.get(DcMotorEx.class, "rightRear");
+
+        //Declare Other Motors
+        leftSlide = hardwareMap.get(DcMotorEx.class, "LSlide");
+        rightSlide = hardwareMap.get(DcMotorEx.class, "RSlide");
+
+        //Declare Servos
+        claw = hardwareMap.get(Servo.class, "claw");
+
+
+
 
         // Set the direction of motors
         // TODO: UPDATE VALUES WITH NEW BOT
@@ -45,16 +67,24 @@ public class HWC {
 
         // Set motors to break when power = 0
         // TODO: REMOVE IF THIS BEHAVIOUR IS NOT DESIRED ON NEW BOT
-        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftFront.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        rightFront.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        leftRear.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        rightRear.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        leftSlide.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        rightSlide.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
 
-        // Run motors using encoder, so that we can move accurately.
-        leftFront.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        rightFront.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        leftRear.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        rightRear.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        // Set driving motors to run without encoders, we're using odometry instead
+        leftFront.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        rightFront.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        leftRear.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        rightRear.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+
+        // Set slide motors to use encoders
+        rightSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
     // TODO: ADD ANY HARDWARE RELATED FUNCTIONS BELOW
 }
