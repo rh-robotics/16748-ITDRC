@@ -20,7 +20,7 @@ public class HWC {
     // Declare empty variables for robot hardware
     public DcMotorEx leftFront, rightFront, leftRear, rightRear, rightSlide, leftSlide;
     //TODO: CHANGE TO NORMAL SERVO
-    public Servo claw;
+    public Servo claw, joint, arm;
 
 
     // Other Variables
@@ -54,6 +54,8 @@ public class HWC {
 
         //Declare Servos
         claw = hardwareMap.get(Servo.class, "claw");
+        arm = hardwareMap.get(Servo.class,"arm");
+        joint = hardwareMap.get(Servo.class, "joint");
 
 
 
