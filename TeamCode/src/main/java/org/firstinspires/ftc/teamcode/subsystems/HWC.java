@@ -32,7 +32,7 @@ public class HWC {
 
     Telemetry telemetry;
     ElapsedTime time = new ElapsedTime();
-
+    ElapsedTime sleepTimer = new ElapsedTime();
     /**
      * Constructor for HWC, declares all hardware components
      *
@@ -62,10 +62,14 @@ public class HWC {
 
         // Set the direction of motors
         // TODO: UPDATE VALUES WITH NEW BOT
-        leftFront.setDirection(DcMotorEx.Direction.REVERSE);
+        leftFront.setDirection(DcMotorEx.Direction.FORWARD);
         rightFront.setDirection(DcMotorEx.Direction.FORWARD);
         leftRear.setDirection(DcMotorEx.Direction.FORWARD);
         rightRear.setDirection(DcMotorEx.Direction.FORWARD);
+
+        //Set direction of other motors
+       // leftSlide.setDirection(DcMotorEx.Direction.FORWARD);
+        //rightSlide.setDirection(DcMotorEx.Direction.FORWARD);
 
         // Set motors to break when power = 0
         // TODO: REMOVE IF THIS BEHAVIOUR IS NOT DESIRED ON NEW BOT
@@ -89,4 +93,8 @@ public class HWC {
         leftSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
     // TODO: ADD ANY HARDWARE RELATED FUNCTIONS BELOW
+
+    public static void betterSleep(double secs){
+        
+    }
 }
