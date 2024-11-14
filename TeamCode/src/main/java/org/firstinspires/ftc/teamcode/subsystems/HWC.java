@@ -19,8 +19,18 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class HWC {
     // Declare empty variables for robot hardware
     public DcMotorEx leftFront, rightFront, leftRear, rightRear, rightSlide, leftSlide;
-    //TODO: CHANGE TO NORMAL SERVO
     public Servo claw, joint, arm;
+
+    // Position Variables
+    //TODO: FIND ACTUAL VALUES
+    double clawOpenPos = 0.5;
+    double clawClosePos = 0;
+    int lowBasketPos = 0;
+    int highBasketPos = 0;
+    int lowBarPos = 0;
+    int highBarPos = 0;
+    int climbOnePos = 0;
+    int climbTwoPos=0;
 
 
     // Other Variables
