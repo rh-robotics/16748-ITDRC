@@ -132,6 +132,17 @@ public class InitialTeleOp extends OpMode {
         robot.rightRear.setPower(rightBPower);
 
 
+
+        //TODO: TEMPORARY SLIDE CONTROL
+        robot.rightSlide.setPower(gamepad2.left_stick_y);
+        robot.leftSlide.setPower(gamepad2.left_stick_y);
+
+
+        //TODO: TEMPORARY CLAW CONTROL
+        if (gamepad2.a) robot.claw.setPosition(robot.claw.getPosition() +0.05);
+        if (gamepad2.b) robot.claw.setPosition(robot.claw.getPosition() -0.05);
+
+
         switch(state){
 
             case START:

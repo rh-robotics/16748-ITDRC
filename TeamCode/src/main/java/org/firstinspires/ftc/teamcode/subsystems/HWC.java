@@ -67,9 +67,10 @@ public class HWC {
         leftRear.setDirection(DcMotorEx.Direction.FORWARD);
         rightRear.setDirection(DcMotorEx.Direction.FORWARD);
 
-        //Set direction of other motors
-       // leftSlide.setDirection(DcMotorEx.Direction.FORWARD);
-        //rightSlide.setDirection(DcMotorEx.Direction.FORWARD);
+        leftSlide.setDirection(DcMotorEx.Direction.FORWARD);
+        rightSlide.setDirection(DcMotorEx.Direction.REVERSE);
+
+
 
         // Set motors to break when power = 0
         // TODO: REMOVE IF THIS BEHAVIOUR IS NOT DESIRED ON NEW BOT
