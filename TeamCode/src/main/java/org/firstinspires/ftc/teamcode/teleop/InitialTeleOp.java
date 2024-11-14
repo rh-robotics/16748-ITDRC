@@ -139,8 +139,13 @@ public class InitialTeleOp extends OpMode {
 
 
         //TODO: TEMPORARY CLAW CONTROL
-        if (gamepad2.a) robot.claw.setPosition(robot.claw.getPosition() +0.05);
-        if (gamepad2.b) robot.claw.setPosition(robot.claw.getPosition() -0.05);
+        if (gamepad1.a) robot.claw.setPosition(robot.claw.getPosition() +0.05);
+        if (gamepad1.b) robot.claw.setPosition(robot.claw.getPosition() -0.05);
+
+
+        //TODO: TEMPORARY JOINT CONTROL
+        if (gamepad2.a) robot.claw.setPosition(robot.joint.getPosition() +0.05);
+        if (gamepad2.b) robot.claw.setPosition(robot.joint.getPosition() -0.05);
 
 
         switch(state){
@@ -180,14 +185,21 @@ public class InitialTeleOp extends OpMode {
         }
 
         telemetry.addData("State", state);
-        telemetry.addData("Right Front", rightFPower);
-        telemetry.addData("Left Front", leftFPower);
-        telemetry.addData("Right Back", rightBPower);
-        telemetry.addData("Left Back", leftBPower);
+        telemetry.addData("Right Front Pow", robot.rightFront.getPower());
+        telemetry.addData("Left Front Pow", robot.leftFront.getPower());
+        telemetry.addData("Right Back Pow", robot.rightRear.getPower());
+        telemetry.addData("Left Back Pow", robot.leftRear.getPower());
+        //telemetry.addData("", driveSpeed);
         telemetry.addLine();
-       // telemetry.addData("", driveSpeed);
+        telemetry.addData("Right Slide Pos", robot.rightSlide.getCurrentPosition());
+        telemetry.addData("Left Slide Pos", robot.leftSlide.getCurrentPosition());
+        telemetry.addLine();
+        telemetry.addData("Claw Position", robot.claw.getPosition());
+        telemetry.addData("Arm Position", robot.arm.getPosition());
+        telemetry.addData("Joint Position", robot.joint.getPosition());
+
+
         //telemetry.addData("Strafe Speed", strafeSpeed);
-        telemetry.update();
         telemetry.update();
     }
 }
