@@ -131,11 +131,13 @@ public class InitialTeleOp extends OpMode {
         robot.rightFront.setPower(rightFPower);
         robot.rightRear.setPower(rightBPower);
 
+        if (drive != 0) state = TeleOpStates.DRIVE;
 
 
         //TODO: TEMPORARY SLIDE CONTROL
         robot.rightSlide.setPower(gamepad2.left_stick_y);
         robot.leftSlide.setPower(gamepad2.left_stick_y);
+        //if (robot.leftSlide.getPower() != 0 && robot.rightSlide.getPower() != 0) state = TeleOpStates.DELIVER_SAMPLE;
 
 
         //TODO: TEMPORARY CLAW CONTROL
@@ -151,9 +153,12 @@ public class InitialTeleOp extends OpMode {
         switch(state){
 
             case START:
+
                 break;
 
             case DRIVE:
+
+
                 break;
 
             case INTAKE_SAMPLE:
