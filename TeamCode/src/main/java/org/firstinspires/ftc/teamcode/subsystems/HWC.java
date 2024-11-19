@@ -106,6 +106,11 @@ public class HWC {
     // TODO: ADD ANY HARDWARE RELATED FUNCTIONS BELOW
 
     public static void betterSleep(double secs){
-        
+        ElapsedTime sleepTimer = new ElapsedTime();
+        sleepTimer.reset();
+        while (sleepTimer.seconds() < secs){
+
+        }
+
     }
 }
