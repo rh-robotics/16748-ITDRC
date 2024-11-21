@@ -150,6 +150,10 @@ public class InitialTeleOp extends OpMode {
         if (gamepad2.b) robot.claw.setPosition(robot.joint.getPosition() -0.05);
 
 
+        //TODO: ADD RUMBLE METHODS
+        if (gamepad1.left_stick_button) gamepad1.rumble(2);
+        
+
         switch(state){
 
             case START:
