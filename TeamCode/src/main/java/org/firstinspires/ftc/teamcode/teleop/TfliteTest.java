@@ -89,7 +89,7 @@ public class TfliteTest extends OpMode {
 
 class TflitePipeline extends OpenCvPipeline {
     float[] lastResult;
-    TfliteInterpreter interpreter = new TfliteInterpreter();
+    TfliteInterpreter interpreter = new TfliteInterpreter(13);
     Context context;
     IOException err;
     boolean wasErr;

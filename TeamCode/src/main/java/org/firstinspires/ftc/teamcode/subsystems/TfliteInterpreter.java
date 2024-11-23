@@ -60,6 +60,7 @@ public class TfliteInterpreter {
     public float[] process() {
         TensorProcessor probabilityProcessor = new TensorProcessor.Builder()
                 .add(new NormalizeOp(0, 255)).build();
+        probabilityProcessor.process(probabilityBuffer);
 
         /*if (associatedAxisLabels != null) {
             TensorLabel labels = new TensorLabel(associatedAxisLabels,
