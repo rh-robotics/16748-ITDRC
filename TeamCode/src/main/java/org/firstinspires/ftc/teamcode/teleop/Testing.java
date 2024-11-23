@@ -112,9 +112,11 @@ public class Testing extends OpMode {
         // Move selected motor at/to designated pwr/pos
         if (selType == MotorType.NORMAL) {
             selMotor.setPower(pwr);
+            telemetry.addData("Motor Mode", selMotor.getCurrentPosition());
         } else {
             selServo.setPosition(pos);
-            telemetry.addData("Position", selMotor.getCurrentPosition());
+            telemetry.addData("Servo Name", servos[servoIndex].toString());
+            telemetry.addData("Position", selServo.getPosition());
             telemetry.update();
         }
 

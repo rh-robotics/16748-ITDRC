@@ -154,7 +154,7 @@ public class InitialTeleOp extends OpMode {
         if (gamepad1.dpad_down) robot.arm.setPosition(0);
 
         //TODO: ADD RUMBLE METHODS
-        if (gamepad1.left_stick_button) gamepad1.rumble(2);
+        if (gamepad1.left_stick_button) gamepad1.rumble(2000);
         
 
         switch(state){
@@ -201,7 +201,6 @@ public class InitialTeleOp extends OpMode {
         telemetry.addData("Left Front Pow", robot.leftFront.getPower());
         telemetry.addData("Right Back Pow", robot.rightRear.getPower());
         telemetry.addData("Left Back Pow", robot.leftRear.getPower());
-        //telemetry.addData("", driveSpeed);
         telemetry.addLine();
         telemetry.addData("Right Slide Pos", robot.rightSlide.getCurrentPosition());
         telemetry.addData("Left Slide Pos", robot.leftSlide.getCurrentPosition());
