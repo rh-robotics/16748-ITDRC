@@ -34,7 +34,7 @@ public class InitialTeleOp extends OpMode {
         telemetry.addData("Status", "Initializing");
 
         // Do all init stuff
-        // TODO: ADD INITS THAT YOU NEED
+        // TODO: ADD INITS THAT YOU NEE
         robot = new HWC(hardwareMap, telemetry);
 
         // Tell the driver the robot is ready
@@ -115,7 +115,7 @@ public class InitialTeleOp extends OpMode {
 
 
         // Calculate drive power
-        double drive = -robot.currentGamepad1.left_stick_y * driveSpeed;
+        double drive = robot.currentGamepad1.left_stick_y * driveSpeed;
         double strafe = robot.currentGamepad1.left_stick_x * strafeSpeed;
         double turn = (robot.currentGamepad1.left_trigger - robot.currentGamepad1.right_trigger) * turnSpeed;
 
@@ -131,13 +131,41 @@ public class InitialTeleOp extends OpMode {
         robot.rightFront.setPower(rightFPower);
         robot.rightRear.setPower(rightBPower);
 
+        if (drive != 0) state = TeleOpStates.DRIVE;
+
+
+        //TODO: TEMPORARY SLIDE CONTROL
+        robot.rightSlide.setPower(gamepad2.left_stick_y);
+        robot.leftSlide.setPower(gamepad2.left_stick_y);
+        //if (robot.leftSlide.getPower() != 0 && robot.rightSlide.getPower() != 0) state = TeleOpStates.DELIVER_SAMPLE;
+
+
+        //TODO: TEMPORARY CLAW CONTROL
+        if (gamepad1.a) robot.claw.setPosition(robot.claw.getPosition() +0.01);
+        if (gamepad1.b) robot.claw.setPosition(0);
+
+
+        //TODO: TEMPORARY JOINT CONTROL
+        if (gamepad2.a) robot.joint.setPosition(robot.joint.getPosition() +0.01);
+        if (gamepad2.b) robot.joint.setPosition(robot.joint.getPosition() -0.01);
+
+        //TODO: TEMPORARY ARM CONTROL
+        if (gamepad1.dpad_up) robot.arm.setPosition(robot.arm.getPosition() + 0.01);
+        if (gamepad1.dpad_down) robot.arm.setPosition(0);
+
+        //TODO: ADD RUMBLE METHODS
+        if (gamepad1.left_stick_button) gamepad1.rumble(2);
+        
 
         switch(state){
 
             case START:
+
                 break;
 
             case DRIVE:
+
+
                 break;
 
             case INTAKE_SAMPLE:
@@ -169,14 +197,21 @@ public class InitialTeleOp extends OpMode {
         }
 
         telemetry.addData("State", state);
-        telemetry.addData("Right Front", rightFPower);
-        telemetry.addData("Left Front", leftFPower);
-        telemetry.addData("Right Back", rightBPower);
-        telemetry.addData("Left Back", leftBPower);
+        telemetry.addData("Right Front Pow", robot.rightFront.getPower());
+        telemetry.addData("Left Front Pow", robot.leftFront.getPower());
+        telemetry.addData("Right Back Pow", robot.rightRear.getPower());
+        telemetry.addData("Left Back Pow", robot.leftRear.getPower());
+        //telemetry.addData("", driveSpeed);
         telemetry.addLine();
-       // telemetry.addData("", driveSpeed);
+        telemetry.addData("Right Slide Pos", robot.rightSlide.getCurrentPosition());
+        telemetry.addData("Left Slide Pos", robot.leftSlide.getCurrentPosition());
+        telemetry.addLine();
+        telemetry.addData("Claw Position", robot.claw.getPosition());
+        telemetry.addData("Arm Position", robot.arm.getPosition());
+        telemetry.addData("Joint Position", robot.joint.getPosition());
+
+
         //telemetry.addData("Strafe Speed", strafeSpeed);
-        telemetry.update();
         telemetry.update();
     }
 }
