@@ -115,7 +115,7 @@ public class InitialTeleOp extends OpMode {
 
 
         // Calculate drive power
-        double drive = -robot.currentGamepad1.left_stick_y * driveSpeed;
+        double drive = robot.currentGamepad1.left_stick_y * driveSpeed;
         double strafe = robot.currentGamepad1.left_stick_x * strafeSpeed;
         double turn = (robot.currentGamepad1.left_trigger - robot.currentGamepad1.right_trigger) * turnSpeed;
 
@@ -146,9 +146,12 @@ public class InitialTeleOp extends OpMode {
 
 
         //TODO: TEMPORARY JOINT CONTROL
-        if (gamepad2.a) robot.claw.setPosition(robot.joint.getPosition() +0.05);
-        if (gamepad2.b) robot.claw.setPosition(robot.joint.getPosition() -0.05);
+        if (gamepad2.a) robot.joint.setPosition(robot.joint.getPosition() +0.05);
+        if (gamepad2.b) robot.joint.setPosition(robot.joint.getPosition() -0.05);
 
+        //TODO: TEMPORARY ARM CONTROL
+        if (gamepad1.dpad_up) robot.arm.setPosition(robot.arm.getPosition() + 0.05);
+        if (gamepad1.dpad_down) robot.arm.setPosition(robot.arm.getPosition() - 0.05);
 
         //TODO: ADD RUMBLE METHODS
         if (gamepad1.left_stick_button) gamepad1.rumble(2);
