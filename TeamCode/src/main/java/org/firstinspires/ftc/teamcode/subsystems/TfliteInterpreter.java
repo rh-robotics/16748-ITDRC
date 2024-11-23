@@ -1,10 +1,13 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+
 import org.tensorflow.lite.DataType;
 import org.tensorflow.lite.support.common.FileUtil;
 import org.tensorflow.lite.support.common.TensorProcessor;
 import org.tensorflow.lite.support.common.ops.NormalizeOp;
+import org.tensorflow.lite.support.image.TensorImage;
 import org.tensorflow.lite.support.label.TensorLabel;
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
 
@@ -33,49 +36,41 @@ public class TfliteInterpreter {
         associatedAxisLabels = null;
     }
 
-    IOException loadModel(String file, Context context) {
-        try {
+    public void loadModel(Context context, String file) throws IOException{
             MappedByteBuffer tfliteModel = FileUtil.loadMappedFile(context, file);
             InterpreterApi tflite = InterpreterApi.create(
                     tfliteModel, new InterpreterApi.Options());
-        } catch(IOException e) {
-            return e;
-        }
-
-        return null;
     }
 
-    IOException loadLabels(Context context) {
-        try {
-            associatedAxisLabels = FileUtil.loadLabels(context, ASSOCIATED_AXIS_LABELS);
-        } catch (IOException e) {
-            return e;
-        }
-
-        return null;
+    public void loadLabels(Context context) throws IOException {
+        associatedAxisLabels = FileUtil.loadLabels(context, ASSOCIATED_AXIS_LABELS);
     }
 
-    int runModel(MappedByteBuffer img) {
+    public int runModel(Bitmap bitmap) {
         if (tflite == null) {
             return 1;
         }
 
-        tflite.run(img, probabilityBuffer.getBuffer());
+        TensorImage tImage = TensorImage.fromBitmap(bitmap);
+
+        tflite.run(tImage.getBuffer(), probabilityBuffer.getBuffer());
         return 0;
     }
 
-    Map<String, Float> process() {
-        TensorProcessor probabilityProcessor =
-                new TensorProcessor.Builder().add(new NormalizeOp(0, 255)).build();
+    public float[] process() {
+        TensorProcessor probabilityProcessor = new TensorProcessor.Builder()
+                .add(new NormalizeOp(0, 255)).build();
 
-        if (associatedAxisLabels != null) {
+        /*if (associatedAxisLabels != null) {
             TensorLabel labels = new TensorLabel(associatedAxisLabels,
                     probabilityProcessor.process(probabilityBuffer));
 
             return labels.getMapWithFloatValue();
-        }
+        }*/
 
-        return null;
+        return probabilityBuffer.getFloatArray();
+
+        // return null;
     }
 
 }
