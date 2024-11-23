@@ -14,19 +14,19 @@ import java.util.List;
 import java.util.Map;
 
 import org.tensorflow.lite.InterpreterApi;
-public class TFLiteInterpreter {
+public class TfliteInterpreter {
     public static final String ASSOCIATED_AXIS_LABELS = "labels.txt";
     private TensorBuffer probabilityBuffer;
     private InterpreterApi tflite;
     private List<String> associatedAxisLabels;
 
-    public TFLiteInterpreter() {
+    public TfliteInterpreter() {
         probabilityBuffer = TensorBuffer.createFixedSize(
                 new int[]{1, 1001}, DataType.UINT8);
         tflite = null;
         associatedAxisLabels = null;
     }
-    public TFLiteInterpreter(int n) {
+    public TfliteInterpreter(int n) {
         probabilityBuffer = TensorBuffer.createFixedSize(
                 new int[]{1, n}, DataType.UINT8);
         tflite = null;
