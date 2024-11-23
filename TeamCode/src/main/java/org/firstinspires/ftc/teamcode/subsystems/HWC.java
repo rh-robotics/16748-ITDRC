@@ -22,15 +22,9 @@ public class HWC {
     public Servo claw, joint, arm;
 
     // Position Variables
-    //TODO: FIND ACTUAL VALUES
-    double clawOpenPos = 0.5;
-    double clawClosePos = 0;
-    int lowBasketPos = 0;
-    int highBasketPos = 0;
-    int lowBarPos = 0;
-    int highBarPos = 0;
-    int climbOnePos = 0;
-    int climbTwoPos=0;
+
+
+
 
 
     // Other Variables
@@ -51,6 +45,20 @@ public class HWC {
      */
     public HWC(@NonNull HardwareMap hardwareMap, Telemetry telemetry) {
         this.telemetry = telemetry;
+        //TODO: FIND ACTUAL VALUES
+        double clawOpenPos = 0.5;
+        double clawClosePos = 0;
+
+        double armDefaultPos = 0;
+        double armPos1 = 0.25;
+        double armPos2 = 0.5;
+        double armPos3 = 0.75;
+        int lowBasketPos = 0;
+        int highBasketPos = 0;
+        int lowBarPos = 0;
+        int highBarPos = 0;
+        int climbOnePos = 0;
+        int climbTwoPos=0;
 
         // Declare Driving motors
         leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");

@@ -34,7 +34,7 @@ public class InitialTeleOp extends OpMode {
         telemetry.addData("Status", "Initializing");
 
         // Do all init stuff
-        // TODO: ADD INITS THAT YOU NEED
+        // TODO: ADD INITS THAT YOU NEE
         robot = new HWC(hardwareMap, telemetry);
 
         // Tell the driver the robot is ready
@@ -141,17 +141,17 @@ public class InitialTeleOp extends OpMode {
 
 
         //TODO: TEMPORARY CLAW CONTROL
-        if (gamepad1.a) robot.claw.setPosition(robot.claw.getPosition() +0.05);
-        if (gamepad1.b) robot.claw.setPosition(robot.claw.getPosition() -0.05);
+        if (gamepad1.a) robot.claw.setPosition(robot.claw.getPosition() +0.01);
+        if (gamepad1.b) robot.claw.setPosition(0);
 
 
         //TODO: TEMPORARY JOINT CONTROL
-        if (gamepad2.a) robot.joint.setPosition(robot.joint.getPosition() +0.05);
-        if (gamepad2.b) robot.joint.setPosition(robot.joint.getPosition() -0.05);
+        if (gamepad2.a) robot.joint.setPosition(robot.joint.getPosition() +0.01);
+        if (gamepad2.b) robot.joint.setPosition(robot.joint.getPosition() -0.01);
 
         //TODO: TEMPORARY ARM CONTROL
-        if (gamepad1.dpad_up) robot.arm.setPosition(robot.arm.getPosition() + 0.05);
-        if (gamepad1.dpad_down) robot.arm.setPosition(robot.arm.getPosition() - 0.05);
+        if (gamepad1.dpad_up) robot.arm.setPosition(robot.arm.getPosition() + 0.01);
+        if (gamepad1.dpad_down) robot.arm.setPosition(0);
 
         //TODO: ADD RUMBLE METHODS
         if (gamepad1.left_stick_button) gamepad1.rumble(2);

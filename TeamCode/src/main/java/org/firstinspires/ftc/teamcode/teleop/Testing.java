@@ -47,8 +47,10 @@ public class Testing extends OpMode {
         motors[1] = robot.rightFront;
         motors[2] = robot.leftRear;
         motors[3] = robot.rightRear;
-        servos = new Servo[11]; // TODO: UPDATE LEN AND ADD ELEMENTS
+        servos = new Servo[3]; // TODO: UPDATE LEN AND ADD ELEMENTS
         servos[0] = robot.claw;
+        servos[1] = robot.joint;
+        servos[2] = robot.arm;
         servoIndex = 0;
         selServo = servos[servoIndex];
         motorIndex = 0;
@@ -112,6 +114,8 @@ public class Testing extends OpMode {
             selMotor.setPower(pwr);
         } else {
             selServo.setPosition(pos);
+            telemetry.addData("Position", selMotor.getCurrentPosition());
+            telemetry.update();
         }
 
         // If A/B button is no longer pressed, reset aPress/bPress
