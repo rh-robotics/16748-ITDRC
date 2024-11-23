@@ -19,8 +19,12 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class HWC {
     // Declare empty variables for robot hardware
     public DcMotorEx leftFront, rightFront, leftRear, rightRear, rightSlide, leftSlide;
-    //TODO: CHANGE TO NORMAL SERVO
     public Servo claw, joint, arm;
+
+    // Position Variables
+
+
+
 
 
     // Other Variables
@@ -41,6 +45,20 @@ public class HWC {
      */
     public HWC(@NonNull HardwareMap hardwareMap, Telemetry telemetry) {
         this.telemetry = telemetry;
+        //TODO: FIND ACTUAL VALUES
+        double clawOpenPos = 0.5;
+        double clawClosePos = 0;
+
+        double armDefaultPos = 0;
+        double armPos1 = 0.25;
+        double armPos2 = 0.5;
+        double armPos3 = 0.75;
+        int lowBasketPos = 0;
+        int highBasketPos = 0;
+        int lowBarPos = 0;
+        int highBarPos = 0;
+        int climbOnePos = 0;
+        int climbTwoPos=0;
 
         // Declare Driving motors
         leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
@@ -67,9 +85,10 @@ public class HWC {
         leftRear.setDirection(DcMotorEx.Direction.FORWARD);
         rightRear.setDirection(DcMotorEx.Direction.FORWARD);
 
-        //Set direction of other motors
-       // leftSlide.setDirection(DcMotorEx.Direction.FORWARD);
-        //rightSlide.setDirection(DcMotorEx.Direction.FORWARD);
+        leftSlide.setDirection(DcMotorEx.Direction.FORWARD);
+        rightSlide.setDirection(DcMotorEx.Direction.REVERSE);
+
+
 
         // Set motors to break when power = 0
         // TODO: REMOVE IF THIS BEHAVIOUR IS NOT DESIRED ON NEW BOT
@@ -95,6 +114,11 @@ public class HWC {
     // TODO: ADD ANY HARDWARE RELATED FUNCTIONS BELOW
 
     public static void betterSleep(double secs){
-        
+        ElapsedTime sleepTimer = new ElapsedTime();
+        sleepTimer.reset();
+        while (sleepTimer.seconds() < secs){
+
+        }
+
     }
 }
