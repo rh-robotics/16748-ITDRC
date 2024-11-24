@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.teleop;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 
@@ -89,10 +90,9 @@ public class TfliteTest extends OpMode {
 
 class TflitePipeline extends OpenCvPipeline {
     float[] lastResult;
-    TfliteInterpreter interpreter = new TfliteInterpreter(13);
+    TfliteInterpreter interpreter = new TfliteInterpreter();
     Context context;
     IOException err;
-    boolean wasErr;
     int width;
     int height;
 
@@ -100,33 +100,23 @@ class TflitePipeline extends OpenCvPipeline {
         this.lastResult = null;
         this.context = context;
         this.err = null;
-        this.wasErr = false;
         this.width = width;
         this.height = height;
 
         try {
-            interpreter.loadModel(context, "model.tflite");
+            interpreter.initialiseModel(context, "model.tflite");
         } catch (IOException e) {
             err = e;
-            wasErr = true;
         }
-
-        /*if (!wasErr) {
-            try {
-                interpreter.loadLabels(context);
-            } catch (IOException e) {
-                err = e;
-                wasErr = true;
-            }
-        }*/
     }
 
     @Override
     public Mat processFrame(Mat input) {
-        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Utils.matToBitmap(input, bitmap);
-        interpreter.runModel(bitmap);
-        lastResult = interpreter.process();
+        interpreter.loadImage(bitmap);
+        interpreter.runInference();
+        lastResult = interpreter.getResult();
 
         return input;
     }
