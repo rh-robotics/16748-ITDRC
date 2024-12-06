@@ -42,11 +42,16 @@ public class InitialTeleOp extends OpMode {
 
         // Creates States
         state = TeleOpStates.START;
+        robot.arm.setPosition(0);
+        robot.joint.setPosition(0.9);
+        //robot.claw.setPosition(0);
     }
+
 
     // init_loop() - Runs continuously until the driver hits play
     @Override
     public void init_loop() {
+
         robot.previousGamepad1.copy(robot.currentGamepad1);
         robot.currentGamepad1.copy(gamepad1);
 
@@ -101,6 +106,7 @@ public class InitialTeleOp extends OpMode {
     @Override
     public void start() {
         time.reset();
+       // robot.claw.setPosition(1);
     }
 
     // loop() - Runs continuously while the OpMode is active
@@ -141,8 +147,8 @@ public class InitialTeleOp extends OpMode {
 
 
         //TODO: TEMPORARY CLAW CONTROL
-        if (gamepad1.a) robot.claw.setPosition(robot.claw.getPosition() +0.01);
-        if (gamepad1.b) robot.claw.setPosition(0);
+        if (gamepad2.left_bumper) robot.claw.setPosition(robot.claw.getPosition() +0.008);
+        if (gamepad2.right_bumper) robot.claw.setPosition(0);
 
 
         //TODO: TEMPORARY JOINT CONTROL
@@ -150,13 +156,31 @@ public class InitialTeleOp extends OpMode {
         if (gamepad2.b) robot.joint.setPosition(robot.joint.getPosition() -0.01);
 
         //TODO: TEMPORARY ARM CONTROL
-        if (gamepad1.dpad_up) robot.arm.setPosition(robot.arm.getPosition() + 0.01);
-        if (gamepad1.dpad_down) robot.arm.setPosition(0);
+        if (gamepad2.dpad_up) robot.arm.setPosition(robot.arm.getPosition() + 0.005);
+        if (gamepad2.dpad_down) robot.arm.setPosition(robot.arm.getPosition() - 0.005);
+
 
         //TODO: ADD RUMBLE METHODS
         if (gamepad1.left_stick_button) gamepad1.rumble(2000);
-        
 
+
+        //TODO: Better control?
+        /*
+        if (gamepad1.a) robot.arm.setPosition(HWC.armDefaultPos);
+        if (gamepad1.b) robot.arm.setPosition(HWC.armPos1);
+        if (gamepad1.x) robot.arm.setPosition(HWC.armPos2);
+        if (gamepad1.y) robot.arm.setPosition(HWC.armPos3);
+        if (gamepad1.dpad_up){
+            robot.leftSlide.setTargetPosition(HWC.lowBasketPos);
+            robot.rightSlide.setTargetPosition(HWC.lowBasketPos);
+        }
+        if (gamepad1.dpad_up){
+            robot.leftSlide.setTargetPosition(HWC.lowBasketPos);
+            robot.rightSlide.setTargetPosition(HWC.lowBasketPos);
+        }
+
+
+*/
         switch(state){
 
             case START:

@@ -25,9 +25,8 @@ public class MotorPIDTuning extends OpMode {
     private PIDController controller;
     private HWC robot;
     private DcMotorEx slideLeft;
-    //private Motor motorSelection = Motor.SLIDE_L;
     private DcMotorEx slideRight;
-    private final double TICKS_IN_DEGREES = 751.8 / 360;
+    private final double TICKS_IN_DEGREES = HWC.slidePPR / 360;
 
     @Override
     public void init() {
@@ -48,6 +47,7 @@ public class MotorPIDTuning extends OpMode {
 
         slideLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         slideRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.claw.setPosition(robot.claw.getPosition());
     }
 
     @Override
@@ -60,6 +60,8 @@ public class MotorPIDTuning extends OpMode {
 
         // ------ Set PID ------ //
         controller.setPID(p, i, d);
+
+        // Keeps Servo in position
 
         // ------ Get Motor Position ------ //
         motorPos = (slideLeft.getCurrentPosition() + slideRight.getCurrentPosition()) / 2.0;

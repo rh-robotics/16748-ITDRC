@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.subsystems.pid.RobotComponents;
 
 /**
  * Stores and Declares all hardware devices &amp; related methods
@@ -20,8 +21,23 @@ public class HWC {
     // Declare empty variables for robot hardware
     public DcMotorEx leftFront, rightFront, leftRear, rightRear, rightSlide, leftSlide;
     public Servo claw, joint, arm;
+    public RobotComponents slideLComponent, slideRComponent;
 
     // Position Variables
+  public static double clawOpenPos = 0.5;
+  public static double clawClosePos = 0;
+
+  public static   double armDefaultPos = 0;
+  public static double armPos1 = 0.25;
+  public static double armPos2 = 0.5;
+  public static double armPos3 = 0.75;
+  public static int lowBasketPos = 0;
+  public static int highBasketPos = 0;
+  public static int lowBarPos = 0;
+  public static int highBarPos = 0;
+  public static int climbOnePos = 0;
+  public static int climbTwoPos = 0;
+  public static double slidePPR = 751.8;
 
 
 
@@ -46,19 +62,7 @@ public class HWC {
     public HWC(@NonNull HardwareMap hardwareMap, Telemetry telemetry) {
         this.telemetry = telemetry;
         //TODO: FIND ACTUAL VALUES
-        double clawOpenPos = 0.5;
-        double clawClosePos = 0;
 
-        double armDefaultPos = 0;
-        double armPos1 = 0.25;
-        double armPos2 = 0.5;
-        double armPos3 = 0.75;
-        int lowBasketPos = 0;
-        int highBasketPos = 0;
-        int lowBarPos = 0;
-        int highBarPos = 0;
-        int climbOnePos = 0;
-        int climbTwoPos=0;
 
         // Declare Driving motors
         leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
@@ -72,10 +76,8 @@ public class HWC {
 
         //Declare Servos
         claw = hardwareMap.get(Servo.class, "claw");
-        arm = hardwareMap.get(Servo.class,"arm");
+        arm = hardwareMap.get(Servo.class, "arm");
         joint = hardwareMap.get(Servo.class, "joint");
-
-
 
 
         // Set the direction of motors
@@ -87,7 +89,6 @@ public class HWC {
 
         leftSlide.setDirection(DcMotorEx.Direction.FORWARD);
         rightSlide.setDirection(DcMotorEx.Direction.REVERSE);
-
 
 
         // Set motors to break when power = 0
@@ -110,6 +111,11 @@ public class HWC {
         leftSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
+        arm.setDirection(Servo.Direction.FORWARD);
+        slideLComponent = new RobotComponents(leftSlide, slidePPR, 0, 0, 0, 0);
+        slideRComponent = new RobotComponents(rightSlide, slidePPR, 0, 0, 0, 0);
     }
     // TODO: ADD ANY HARDWARE RELATED FUNCTIONS BELOW
 

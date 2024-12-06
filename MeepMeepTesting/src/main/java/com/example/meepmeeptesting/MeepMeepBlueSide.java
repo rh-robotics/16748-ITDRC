@@ -42,6 +42,7 @@ public class MeepMeepBlueSide {
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
                 .addEntity(myBot)
+                .exportTrajectoryImage("~/Documents")
                 .start();
     }
 }
