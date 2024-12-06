@@ -24,8 +24,11 @@ public class HWC {
     public RobotComponents slideLComponent, slideRComponent;
 
     // Position Variables
-  public static double clawOpenPos = 0.5;
+  public static double clawOpenPos = 0;
   public static double clawClosePos = 0;
+  public static double clawTolerance = 0.002;
+  public static double jointDefaultPos = 0.9;
+  public static double jointScoringPos = 0;
 
   public static   double armDefaultPos = 0;
   public static double armPos1 = 0.25;

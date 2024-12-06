@@ -42,8 +42,8 @@ public class InitialTeleOp extends OpMode {
 
         // Creates States
         state = TeleOpStates.START;
-        robot.arm.setPosition(0);
-        robot.joint.setPosition(0.9);
+        robot.arm.setPosition(HWC.armDefaultPos);
+        robot.joint.setPosition(HWC.jointDefaultPos);
         //robot.claw.setPosition(0);
     }
 
@@ -149,6 +149,7 @@ public class InitialTeleOp extends OpMode {
         //TODO: TEMPORARY CLAW CONTROL
         if (gamepad2.left_bumper) robot.claw.setPosition(robot.claw.getPosition() +0.008);
         if (gamepad2.right_bumper) robot.claw.setPosition(0);
+
 
 
         //TODO: TEMPORARY JOINT CONTROL
