@@ -13,6 +13,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.subsystems.pid.RobotComponents;
+import org.firstinspires.ftc.teamcode.subsystems.roadrunner.util.Encoder;
 
 /**
  * Stores and Declares all hardware devices &amp; related methods
@@ -20,7 +21,9 @@ import org.firstinspires.ftc.teamcode.subsystems.pid.RobotComponents;
 public class HWC {
     // Declare empty variables for robot hardware
     public DcMotorEx leftFront, rightFront, leftRear, rightRear, rightSlide, leftSlide;
-    public Servo claw, joint, arm;
+    public Servo joint, arm;
+    public Servo claw;
+    public Encoder leftEncoder, rightEncoder,frontEncoder;
     public RobotComponents slideLComponent, slideRComponent;
 
     // Position Variables
@@ -78,10 +81,16 @@ public class HWC {
         rightSlide = hardwareMap.get(DcMotorEx.class, "RSlide");
 
         //Declare Servos
-        claw = hardwareMap.get(Servo.class, "claw");
+       claw = hardwareMap.get(Servo.class, "claw");
         arm = hardwareMap.get(Servo.class, "arm");
         joint = hardwareMap.get(Servo.class, "joint");
 
+        //Declares OdoWheels
+        leftEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "leftRear"));
+        rightEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "rightRear"));
+        frontEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "rightFront"));
+
+        leftEncoder.setDirection(Encoder.Direction.REVERSE);
 
         // Set the direction of motors
         // TODO: UPDATE VALUES WITH NEW BOT
@@ -119,6 +128,7 @@ public class HWC {
         arm.setDirection(Servo.Direction.FORWARD);
         slideLComponent = new RobotComponents(leftSlide, slidePPR, 0, 0, 0, 0);
         slideRComponent = new RobotComponents(rightSlide, slidePPR, 0, 0, 0, 0);
+
     }
     // TODO: ADD ANY HARDWARE RELATED FUNCTIONS BELOW
 

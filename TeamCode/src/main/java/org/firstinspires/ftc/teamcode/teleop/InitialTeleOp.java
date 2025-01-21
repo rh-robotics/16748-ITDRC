@@ -24,10 +24,12 @@ public class InitialTeleOp extends OpMode {
         STRAFE_SPEED
     }
     private MultiplierSelection selection = MultiplierSelection.TURN_SPEED;
-    private double turnSpeed = 0.5; // Speed multiplier for turning
-    private double driveSpeed = 1; // Speed multiplier for driving
-    private double strafeSpeed = 0.8; // Speed multiplier for strafing
+    private double turnSpeed = 0.3; // Speed multiplier for turning
+    private double driveSpeed = 0.8; // Speed multiplier for driving
+    private double strafeSpeed = 0.6; // Speed multiplier for strafing
     // init() Runs ONCE after the driver hits initialize
+
+    private double clawPos;
     @Override
     public void init() {
         // Tell the driver the Op is initializing
@@ -44,14 +46,14 @@ public class InitialTeleOp extends OpMode {
         state = TeleOpStates.START;
         robot.arm.setPosition(HWC.armDefaultPos);
         robot.joint.setPosition(HWC.jointDefaultPos);
-        //robot.claw.setPosition(0);
+       // robot.claw.setPower(0.2);
     }
 
 
     // init_loop() - Runs continuously until the driver hits play
     @Override
     public void init_loop() {
-
+       // robot.claw.setPower(0);
         robot.previousGamepad1.copy(robot.currentGamepad1);
         robot.currentGamepad1.copy(gamepad1);
 
@@ -147,14 +149,24 @@ public class InitialTeleOp extends OpMode {
 
 
         //TODO: TEMPORARY CLAW CONTROL
-        if (gamepad2.left_bumper) robot.claw.setPosition(robot.claw.getPosition() +0.008);
-        if (gamepad2.right_bumper) robot.claw.setPosition(0);
+        if (gamepad2.left_bumper){
+           clawPos = HWC.clawOpenPos;
+        }
+        else if (gamepad2.right_bumper){
+            clawPos = 0.300;
+        }
 
+        if (gamepad2.dpad_left){
+            robot.slideLComponent.setTarget(-3000);
+            robot.slideLComponent.moveUsingPID();
+            robot.slideRComponent.setTarget(-3000);
+            robot.slideRComponent.moveUsingPID();
+        }
 
 
         //TODO: TEMPORARY JOINT CONTROL
-        if (gamepad2.a) robot.joint.setPosition(robot.joint.getPosition() +0.01);
-        if (gamepad2.b) robot.joint.setPosition(robot.joint.getPosition() -0.01);
+        if (gamepad2.a) robot.joint.setPosition(robot.joint.getPosition() +0.005);
+        if (gamepad2.b) robot.joint.setPosition(robot.joint.getPosition() -0.005);
 
         //TODO: TEMPORARY ARM CONTROL
         if (gamepad2.dpad_up) robot.arm.setPosition(robot.arm.getPosition() + 0.005);
@@ -220,7 +232,7 @@ public class InitialTeleOp extends OpMode {
             default:
                 state = TeleOpStates.UNKNOWN;
         }
-
+        robot.claw.setPosition(clawPos);
         telemetry.addData("State", state);
         telemetry.addData("Right Front Pow", robot.rightFront.getPower());
         telemetry.addData("Left Front Pow", robot.leftFront.getPower());

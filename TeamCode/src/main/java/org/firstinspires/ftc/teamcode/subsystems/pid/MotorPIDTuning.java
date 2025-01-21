@@ -47,7 +47,7 @@ public class MotorPIDTuning extends OpMode {
 
         slideLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         slideRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        robot.claw.setPosition(robot.claw.getPosition());
+        //robot.claw.setPosition(robot.claw.getPosition());
     }
 
     @Override
