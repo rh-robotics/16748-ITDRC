@@ -32,18 +32,18 @@ public class HWC {
   public static double clawTolerance = 0.002;
   public static double jointDefaultPos = 0.9;
   public static double jointScoringPos = 0;
-
   public static   double armDefaultPos = 0;
   public static double armPos1 = 0.25;
   public static double armPos2 = 0.5;
   public static double armPos3 = 0.75;
-  public static int lowBasketPos = 0;
-  public static int highBasketPos = 0;
-  public static int lowBarPos = 0;
-  public static int highBarPos = 0;
-  public static int climbOnePos = 0;
-  public static int climbTwoPos = 0;
+  public static int lowBasketPosSlides = 0;
+  public static int highBasketPosSlides = 0;
+  public static int lowBarPosSlides = 0;
+  public static int highBarPosSlides = 0;
+  public static int climbOnePosSlides = 0;
+  public static int climbTwoPosSlides = 0;
   public static double slidePPR = 751.8;
+  public static boolean isArmBackwards;
 
 
 
@@ -67,8 +67,6 @@ public class HWC {
      */
     public HWC(@NonNull HardwareMap hardwareMap, Telemetry telemetry) {
         this.telemetry = telemetry;
-        //TODO: FIND ACTUAL VALUES
-
 
         // Declare Driving motors
         leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
@@ -140,4 +138,36 @@ public class HWC {
         }
 
     }
+
+    public void moveSlides(int position){
+        slideLComponent.setTarget(position);
+        slideRComponent.setTarget(position);
+        slideRComponent.moveUsingPID();
+        slideLComponent.moveUsingPID();
+    }
+
+    public void advancedMove(int slidePosition, int armPosition, int jointPosition){
+        moveSlides(slidePosition);
+        arm.setPosition(armPosition);
+        joint.setPosition(jointPosition);
+    }
+    public void climb(boolean firstClimb) {
+        if (firstClimb){
+            moveSlides(climbOnePosSlides);
+        }
+        else{
+            moveSlides(climbTwoPosSlides);
+        }
+    }
+
+    public void toggleClaw(){
+        if (claw.getPosition() == clawOpenPos){
+        claw.setPosition(clawClosePos);
+        }
+        else if (claw.getPosition() == clawClosePos){
+            claw.setPosition(clawOpenPos);
+        }
+    }
+
+
 }

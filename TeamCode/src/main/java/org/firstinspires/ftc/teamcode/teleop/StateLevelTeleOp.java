@@ -3,8 +3,9 @@ package org.firstinspires.ftc.teamcode.teleop;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.teamcode.subsystems.DeliveryStates;
+import org.firstinspires.ftc.teamcode.subsystems.GamePlayStates;
 import org.firstinspires.ftc.teamcode.subsystems.HWC;
 
 /**
@@ -12,12 +13,13 @@ import org.firstinspires.ftc.teamcode.subsystems.HWC;
  * Look at JAVA DOC!
  */
 
-@TeleOp(name = "INIT TELEOP", group = "Iterative OpMode")
+@TeleOp(name = "In-Progress Tele-Op", group = "Iterative OpMode")
 
 public class StateLevelTeleOp extends OpMode {
     private final ElapsedTime time = new ElapsedTime();
     HWC robot; // Declare the object for HWC, will allow us to access all the motors declared there!
-    TeleOpStates state; // Creates object of states enum
+    GamePlayStates gameState; // Creates object of states enum
+    DeliveryStates dState;
     public enum MultiplierSelection {
         TURN_SPEED,
         DRIVE_SPEED,
@@ -43,7 +45,7 @@ public class StateLevelTeleOp extends OpMode {
         telemetry.addData("Status", "Initialized");
 
         // Creates States
-        state = TeleOpStates.START;
+        gameState = GamePlayStates.START;
         robot.arm.setPosition(HWC.armDefaultPos);
         robot.joint.setPosition(HWC.jointDefaultPos);
         //Claw position is not set because we don't want to drop the preload if we don't score in auton
@@ -102,7 +104,6 @@ public class StateLevelTeleOp extends OpMode {
     }
 
 
-
     // Start() - Runs ONCE when the driver presses play
     @Override
     public void start() {
@@ -137,13 +138,12 @@ public class StateLevelTeleOp extends OpMode {
         robot.rightFront.setPower(rightFPower);
         robot.rightRear.setPower(rightBPower);
 
-        if (drive != 0 || strafe != 0 || turn != 0) state = TeleOpStates.DRIVE;
+        if (drive != 0 || strafe != 0 || turn != 0) gameState = GamePlayStates.DRIVE;
 
 
         //TODO: TEMPORARY SLIDE CONTROL
         robot.rightSlide.setPower(gamepad2.left_stick_y);
         robot.leftSlide.setPower(gamepad2.left_stick_y);
-
 
 
         //TODO: TEMPORARY CLAW CONTROL
@@ -177,13 +177,13 @@ public class StateLevelTeleOp extends OpMode {
         //TODO: Better control?
 
 
-        switch(state){
+        switch(gameState){
 
             case START:
                 break;
 
             case DRIVE:
-                if (robot.leftSlide.getPower() != 0 || robot.rightSlide.getPower() != 0) state = TeleOpStates.DELIVER;
+                if (robot.leftSlide.getPower() != 0 || robot.rightSlide.getPower() != 0) gameState = GamePlayStates.DELIVER;
                 break;
 
             case INTAKE:
@@ -192,15 +192,11 @@ public class StateLevelTeleOp extends OpMode {
             case DELIVER:
                 break;
 
-            case CLIMB_ONE:
+            case CLIMB:
                 if (gamepad1.left_stick_button){
-                    //TODO: Add this method
-                    // robot.climb;
-                    state = TeleOpStates.CLIMB_TWO;
-                }
-                break;
+                    //climb method
 
-            case CLIMB_TWO:
+                }
                 break;
 
             case END:
@@ -210,9 +206,9 @@ public class StateLevelTeleOp extends OpMode {
                 break;
 
             default:
-                state = TeleOpStates.UNKNOWN;
+                gameState = gameState.UNKNOWN;
         }
-        telemetry.addData("State", state);
+        telemetry.addData("State", gameState);
         telemetry.addData("Right Front Pow", robot.rightFront.getPower());
         telemetry.addData("Left Front Pow", robot.leftFront.getPower());
         telemetry.addData("Right Back Pow", robot.rightRear.getPower());
