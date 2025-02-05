@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.subsystems.HWC;
-import org.firstinspires.ftc.teamcode.subsystems.TeleOpStates;
+import org.firstinspires.ftc.teamcode.subsystems.GamePlayStates;
 
 /**
  * TeleOp OpMode for simply driving with strafing wheels
@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.subsystems.TeleOpStates;
 public class InitialTeleOp extends OpMode {
     private final ElapsedTime time = new ElapsedTime();
     HWC robot; // Declare the object for HWC, will allow us to access all the motors declared there!
-    TeleOpStates state; // Creates object of states enum
+    GamePlayStates state; // Creates object of states enum
     public enum MultiplierSelection {
         TURN_SPEED,
         DRIVE_SPEED,
@@ -43,17 +43,17 @@ public class InitialTeleOp extends OpMode {
         telemetry.addData("Status", "Initialized");
 
         // Creates States
-        state = TeleOpStates.START;
+        state = GamePlayStates.START;
         robot.arm.setPosition(HWC.armDefaultPos);
         robot.joint.setPosition(HWC.jointDefaultPos);
-       // robot.claw.setPower(0.2);
+        // robot.claw.setPower(0.2);
     }
 
 
     // init_loop() - Runs continuously until the driver hits play
     @Override
     public void init_loop() {
-       // robot.claw.setPower(0);
+        // robot.claw.setPower(0);
         robot.previousGamepad1.copy(robot.currentGamepad1);
         robot.currentGamepad1.copy(gamepad1);
 
@@ -108,7 +108,7 @@ public class InitialTeleOp extends OpMode {
     @Override
     public void start() {
         time.reset();
-       // robot.claw.setPosition(1);
+        // robot.claw.setPosition(1);
     }
 
     // loop() - Runs continuously while the OpMode is active
@@ -139,7 +139,7 @@ public class InitialTeleOp extends OpMode {
         robot.rightFront.setPower(rightFPower);
         robot.rightRear.setPower(rightBPower);
 
-        if (drive != 0) state = TeleOpStates.DRIVE;
+        if (drive != 0) state = GamePlayStates.DRIVE;
 
 
         //TODO: TEMPORARY SLIDE CONTROL
@@ -150,7 +150,7 @@ public class InitialTeleOp extends OpMode {
 
         //TODO: TEMPORARY CLAW CONTROL
         if (gamepad2.left_bumper){
-           clawPos = HWC.clawOpenPos;
+            clawPos = HWC.clawOpenPos;
         }
         else if (gamepad2.right_bumper){
             clawPos = 0.300;
@@ -205,23 +205,15 @@ public class InitialTeleOp extends OpMode {
 
                 break;
 
-            case INTAKE_SAMPLE:
+            case INTAKE:
                 break;
 
-            case INTAKE_SPECIMEN:
+            case DELIVER:
                 break;
 
-            case DELIVER_SAMPLE:
+            case CLIMB:
                 break;
 
-            case DELIVER_SPECIMEN:
-                break;
-
-            case CLIMB_ONE:
-                break;
-
-            case CLIMB_TWO:
-                break;
 
             case END:
                 break;
@@ -230,7 +222,7 @@ public class InitialTeleOp extends OpMode {
                 break;
 
             default:
-                state = TeleOpStates.UNKNOWN;
+                state = GamePlayStates.UNKNOWN;
         }
         robot.claw.setPosition(clawPos);
         telemetry.addData("State", state);
