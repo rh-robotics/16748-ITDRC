@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class ColorBlock {
     private ArrayList<ColorLine> lines;
     private int segSize; // segment size
+    private Color color;
 
     public ColorBlock(int segSize) {
         lines = new ArrayList<>();
@@ -33,6 +34,14 @@ public class ColorBlock {
 
     public int size() {
         return lines.size();
+    }
+
+    public void setColor() {
+        color = lines.get(0).getColor();
+    }
+
+    public Color getColor() {
+        return color;
     }
 
     public Point2[] getVertices() {

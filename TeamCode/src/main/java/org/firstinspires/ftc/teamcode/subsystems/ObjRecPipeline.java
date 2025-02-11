@@ -119,8 +119,10 @@ public class ObjRecPipeline extends OpenCvPipeline {
             blocks.get(mergeFrom).clear();
         }
 
-        // Clean
+        // Clean & Colorize
         for (int i = blocks.size() - 1; i >= 0; i--) {
+            blocks.get(i).setColor();
+
             if (blocks.get(i).isEmpty() || blocks.get(i).size() < 4 * sectionSize / 10) {
                 blocks.remove(i);
             }
