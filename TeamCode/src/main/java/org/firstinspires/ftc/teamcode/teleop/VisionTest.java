@@ -15,7 +15,7 @@ import java.util.Locale;
 @TeleOp(name = "Vision Test", group = "Iterative OpMode")
 public class VisionTest extends OpMode {
     OpenCvCamera camera;
-    ObjRecPipeline pipeline = new ObjRecPipeline(10, 10);
+    ObjRecPipeline pipeline = new ObjRecPipeline(10, 20);
 
     @Override
     public void init() {

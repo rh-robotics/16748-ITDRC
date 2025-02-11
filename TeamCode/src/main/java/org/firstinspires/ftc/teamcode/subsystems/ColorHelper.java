@@ -6,11 +6,15 @@ public class ColorHelper {
         double green = rgba[1];
         double blue = rgba[2];
 
-        if (red > 200 && green < 200 && blue < 200) {
+        double redProp = red / (red + green + blue);
+        double greenProp = green / (red + green + blue);
+        double blueProp = blue / (red + green + blue);
+
+        if (redProp > 0.45 && greenProp < 0.35) {
             return Color.RED;
-        } else if (red > 200 && green > 200 && blue < 200) {
+        } else if (redProp > 0.45 && greenProp > 0.35) {
             return Color.YELLOW;
-        } else if (red < 200 && green < 200 && blue > 200) {
+        } else if (blueProp > 0.45) {
             return Color.BLUE;
         } else {
             return Color.OTHER;

@@ -4,20 +4,19 @@ import org.opencv.core.Mat;
 import org.openftc.easyopencv.OpenCvPipeline;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class ObjRecPipeline extends OpenCvPipeline {
     private boolean viewportPaused;
-    private final int sections;
+    private final int sectionSize;
     private final int samples;
     private ColorLine[][] grid;
     private ArrayList<ColorBlock> blocks;
     private int refC;
     private ArrayList<Integer> merge;
 
-    public ObjRecPipeline(int sections, int samples) {
+    public ObjRecPipeline(int sectionSize, int samples) {
         this.viewportPaused = false;
-        this.sections = sections;
+        this.sectionSize = sectionSize;
         this.samples = samples;
     }
 
@@ -33,22 +32,22 @@ public class ObjRecPipeline extends OpenCvPipeline {
     }
 
     private void genGrid(Mat mat) {
-        grid = new ColorLine[mat.rows() / sections][];
+        grid = new ColorLine[mat.rows() / sectionSize][];
 
-        for (int hSec = 0; hSec < mat.rows() / sections; hSec++) {
+        for (int hSec = 0; hSec < mat.rows() / sectionSize; hSec++) {
             grid[hSec] = processHorizontalSection(mat, hSec);
         }
     }
 
     private ColorLine[] processHorizontalSection(Mat mat, int hSec) {
-        int yMin = hSec * sections;
+        int yMin = hSec * sectionSize;
         ArrayList<ColorLine> list = new ArrayList<>();
 
         Color lColor = colorSample(mat, 0, yMin); // Last color
         int start = 0;
 
-        for (int vSec = 1; vSec < (mat.cols() / sections); vSec++) { // - 1?
-            Color cColor = colorSample(mat, vSec * sections, yMin); // Current color
+        for (int vSec = 1; vSec < (mat.cols() / sectionSize); vSec++) { // - 1?
+            Color cColor = colorSample(mat, vSec * sectionSize, yMin); // Current color
 
             if (lColor != Color.OTHER && cColor != lColor) {
                 ColorLine colorLine = new ColorLine(lColor, start, vSec, hSec);
@@ -62,7 +61,7 @@ public class ObjRecPipeline extends OpenCvPipeline {
         }
 
         if (lColor != Color.OTHER) {
-            ColorLine colorLine = new ColorLine(lColor, start, mat.cols() / sections, hSec);
+            ColorLine colorLine = new ColorLine(lColor, start, mat.cols() / sectionSize, hSec);
             list.add(colorLine);
         }
 
@@ -76,8 +75,8 @@ public class ObjRecPipeline extends OpenCvPipeline {
         double[] totals = {0, 0, 0, 0};
 
         for (int i = 0; i < samples; i++) {
-            int xRand = (int) (sections * Math.random()) + xMin;
-            int yRand = (int) (sections * Math.random()) + yMin;
+            int xRand = (int) (sectionSize * Math.random()) + xMin;
+            int yRand = (int) (sectionSize * Math.random()) + yMin;
 
             double[] rgba = mat.get(yRand, xRand);
 
@@ -103,7 +102,7 @@ public class ObjRecPipeline extends OpenCvPipeline {
             grid[0][col].setRef(refC);
             refC++;
 
-            blocks.add(new ColorBlock());
+            blocks.add(new ColorBlock(sectionSize));
             blocks.get(col).add(grid[0][col]);
         }
 
@@ -122,7 +121,7 @@ public class ObjRecPipeline extends OpenCvPipeline {
 
         // Clean
         for (int i = blocks.size() - 1; i >= 0; i--) {
-            if (blocks.get(i).isEmpty()) {
+            if (blocks.get(i).isEmpty() || blocks.get(i).size() < 4 * sectionSize / 10) {
                 blocks.remove(i);
             }
         }
@@ -146,7 +145,7 @@ public class ObjRecPipeline extends OpenCvPipeline {
 
             if (grid[row][col1].getRef() == -1) {
                 grid[row][col1].setRef(refC);
-                blocks.add(new ColorBlock());
+                blocks.add(new ColorBlock(sectionSize));
                 blocks.get(refC).add(grid[row][col1]);
 
                 refC++;
