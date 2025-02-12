@@ -21,7 +21,7 @@ import org.firstinspires.ftc.teamcode.subsystems.roadrunner.util.Encoder;
 public class HWC {
     // Declare empty variables for robot hardware
     public DcMotorEx leftFront, rightFront, leftRear, rightRear, rightSlide, leftSlide;
-    public Servo joint, arm;
+    public Servo jointL, jointR, armL, armR;
     public Servo claw;
     public Encoder leftEncoder, rightEncoder,frontEncoder;
     public RobotComponents slideLComponent, slideRComponent;
@@ -30,7 +30,7 @@ public class HWC {
   public static double clawOpenPos = 0;
   public static double clawClosePos = 0;
   public static double clawTolerance = 0.002;
-  public static double jointDefaultPos = 0.9;
+  public static double jointDefaultPos = 0;
   public static double jointScoringPos = 0;
   public static   double armDefaultPos = 0;
   public static double armPos1 = 0.25;
@@ -80,8 +80,10 @@ public class HWC {
 
         //Declare Servos
        claw = hardwareMap.get(Servo.class, "claw");
-        arm = hardwareMap.get(Servo.class, "arm");
-        joint = hardwareMap.get(Servo.class, "joint");
+        armL = hardwareMap.get(Servo.class, "armL");
+        armR =  hardwareMap.get(Servo.class, "armR");
+        jointL = hardwareMap.get(Servo.class, "jointL");
+        jointR = hardwareMap.get(Servo.class, "jointR");
 
         //Declares OdoWheels
         leftEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "leftRear"));
@@ -123,7 +125,11 @@ public class HWC {
         leftSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
-        arm.setDirection(Servo.Direction.FORWARD);
+        armL.setDirection(Servo.Direction.FORWARD);
+        armR.setDirection(Servo.Direction.REVERSE);
+        jointL.setDirection(Servo.Direction.FORWARD);
+        jointR.setDirection(Servo.Direction.REVERSE);
+        //TODO: TUNE THESE VALUES
         slideLComponent = new RobotComponents(leftSlide, slidePPR, 0, 0, 0, 0);
         slideRComponent = new RobotComponents(rightSlide, slidePPR, 0, 0, 0, 0);
 
@@ -148,8 +154,10 @@ public class HWC {
 
     public void advancedMove(int slidePosition, int armPosition, int jointPosition){
         moveSlides(slidePosition);
-        arm.setPosition(armPosition);
-        joint.setPosition(jointPosition);
+        armL.setPosition(armPosition);
+        armR.setPosition(armPosition);
+        jointL.setPosition(jointPosition);
+        jointR.setPosition(jointPosition);
     }
     public void climb(boolean firstClimb) {
         if (firstClimb){

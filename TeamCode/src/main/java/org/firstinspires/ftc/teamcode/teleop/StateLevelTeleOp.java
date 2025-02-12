@@ -46,11 +46,12 @@ public class StateLevelTeleOp extends OpMode {
 
         // Creates States
         gameState = GamePlayStates.START;
-        robot.arm.setPosition(HWC.armDefaultPos);
-        robot.joint.setPosition(HWC.jointDefaultPos);
+        robot.armL.setPosition(HWC.armDefaultPos);
+        robot.armR.setPosition(HWC.armDefaultPos);
+        robot.jointR.setPosition(HWC.jointDefaultPos);
+        robot.jointL.setPosition(HWC.jointDefaultPos);
         //Claw position is not set because we don't want to drop the preload if we don't score in auton
     }
-
 
     // init_loop() - Runs continuously until the driver hits play
     @Override
@@ -163,12 +164,43 @@ public class StateLevelTeleOp extends OpMode {
 
         
         //TODO: TEMPORARY JOINT CONTROL
-        if (gamepad1.a) robot.joint.setPosition(robot.joint.getPosition() +0.005);
-        if (gamepad1.b) robot.joint.setPosition(robot.joint.getPosition() -0.005);
+        if (gamepad2.a) {
+            robot.jointR.setPosition(robot.jointR.getPosition() + 0.005);
+            robot.jointL.setPosition(robot.jointL.getPosition() + 0.005);
+        }
+        if (gamepad2.b) {
+            robot.jointL.setPosition(robot.jointL.getPosition() - 0.005);
+            robot.jointR.setPosition(robot.jointR.getPosition() - 0.005);
+        }
 
         //TODO: TEMPORARY ARM CONTROL
-        if (gamepad1.dpad_left) robot.arm.setPosition(robot.arm.getPosition() + 0.005);
-        if (gamepad1.dpad_right) robot.arm.setPosition(robot.arm.getPosition() - 0.005);
+        if (gamepad1.dpad_left) {
+            robot.armL.setPosition(robot.armL.getPosition() - 0.005);
+            robot.armR.setPosition(robot.armR.getPosition() + 0.005);
+        }
+        if (gamepad1.dpad_right) {
+            robot.armL.setPosition(robot.armL.getPosition() - 0.005);
+            robot.armR.setPosition(robot.armR.getPosition() - 0.005);
+        }
+        if (gamepad1.dpad_up) {
+            robot.armL.setPosition(HWC.armDefaultPos);
+           robot.armR.setPosition(HWC.armDefaultPos);
+        }
+
+        //TODO: TEMP JOINT CONTROL
+        if (gamepad1.left_bumper){
+            robot.jointL.setPosition(robot.jointL.getPosition() - 0.005);
+            robot.jointR.setPosition(robot.jointR.getPosition() - 0.005);
+        }
+        else if (gamepad1.right_bumper){
+            robot.jointL.setPosition(robot.jointL.getPosition() + 0.005);
+            robot.jointR.setPosition(robot.jointR.getPosition() + 0.005);
+        }
+
+        if (gamepad1.dpad_down){
+            robot.jointL.setPosition(HWC.jointDefaultPos);
+            robot.jointR.setPosition(HWC.jointDefaultPos);
+        }
 
 
         //TODO: ADD RUMBLE METHODS
@@ -195,7 +227,6 @@ public class StateLevelTeleOp extends OpMode {
             case CLIMB:
                 if (gamepad1.left_stick_button){
                     //climb method
-
                 }
                 break;
 
@@ -218,8 +249,10 @@ public class StateLevelTeleOp extends OpMode {
         telemetry.addData("Left Slide Pos", robot.leftSlide.getCurrentPosition());
         telemetry.addLine();
         telemetry.addData("Claw Position", robot.claw.getPosition());
-        telemetry.addData("Arm Position", robot.arm.getPosition());
-        telemetry.addData("Joint Position", robot.joint.getPosition());
+        telemetry.addData("Arm L Position", robot.armL.getPosition());
+        telemetry.addData("Arm R Position", robot.armR.getPosition());
+        telemetry.addData("Joint R Position", robot.jointR.getPosition());
+        telemetry.addData("Joint L Position", robot.jointL.getPosition());
 
         telemetry.update();
     }

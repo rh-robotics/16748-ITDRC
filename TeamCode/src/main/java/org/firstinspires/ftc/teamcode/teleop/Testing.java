@@ -49,8 +49,8 @@ public class Testing extends OpMode {
         motors[3] = robot.rightRear;
         servos = new Servo[3]; // TODO: UPDATE LEN AND ADD ELEMENTS
        // servos[0] = robot.claw;
-        servos[0] = robot.joint;
-        servos[1] = robot.arm;
+        servos[0] = robot.jointL;
+        servos[1] = robot.armL;
         servoIndex = 0;
         selServo = servos[servoIndex];
         motorIndex = 0;

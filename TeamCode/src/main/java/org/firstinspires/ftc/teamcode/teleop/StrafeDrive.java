@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.subsystems.HWC;
  * TeleOp OpMode for simply driving with strafing wheels
  * Look at JAVA DOC!
  */
-@TeleOp(name = "Basic Strafe Drive", group = "Iterative OpMode")
+@TeleOp(name = "Drive Only", group = "Iterative OpMode")
 public class StrafeDrive extends OpMode {
     private final ElapsedTime time = new ElapsedTime();
     public DcMotorEx leftFront, rightFront, leftRear, rightRear; // Declare the object for HWC, will allow us to access all the motors declared there!

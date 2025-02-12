@@ -44,8 +44,8 @@ public class InitialTeleOp extends OpMode {
 
         // Creates States
         state = GamePlayStates.START;
-        robot.arm.setPosition(HWC.armDefaultPos);
-        robot.joint.setPosition(HWC.jointDefaultPos);
+        robot.armL.setPosition(HWC.armDefaultPos);
+        robot.jointR.setPosition(HWC.jointDefaultPos);
         // robot.claw.setPower(0.2);
     }
 
@@ -165,12 +165,17 @@ public class InitialTeleOp extends OpMode {
 
 
         //TODO: TEMPORARY JOINT CONTROL
-        if (gamepad2.a) robot.joint.setPosition(robot.joint.getPosition() +0.005);
-        if (gamepad2.b) robot.joint.setPosition(robot.joint.getPosition() -0.005);
-
+        if (gamepad2.a) {
+            robot.jointR.setPosition(robot.jointR.getPosition() + 0.005);
+            robot.jointL.setPosition(robot.jointL.getPosition() + 0.005);
+        }
+        if (gamepad2.b) {
+            robot.jointL.setPosition(robot.jointL.getPosition() - 0.005);
+            robot.jointR.setPosition(robot.jointR.getPosition() - 0.005);
+        }
         //TODO: TEMPORARY ARM CONTROL
-        if (gamepad2.dpad_up) robot.arm.setPosition(robot.arm.getPosition() + 0.005);
-        if (gamepad2.dpad_down) robot.arm.setPosition(robot.arm.getPosition() - 0.005);
+        if (gamepad2.dpad_up) robot.armL.setPosition(robot.armL.getPosition() + 0.005);
+        if (gamepad2.dpad_down) robot.armL.setPosition(robot.armL.getPosition() - 0.005);
 
 
         //TODO: ADD RUMBLE METHODS
@@ -235,8 +240,8 @@ public class InitialTeleOp extends OpMode {
         telemetry.addData("Left Slide Pos", robot.leftSlide.getCurrentPosition());
         telemetry.addLine();
         telemetry.addData("Claw Position", robot.claw.getPosition());
-        telemetry.addData("Arm Position", robot.arm.getPosition());
-        telemetry.addData("Joint Position", robot.joint.getPosition());
+        telemetry.addData("Arm Position", robot.armL.getPosition());
+        telemetry.addData("Joint R Position", robot.jointR.getPosition());
 
 
         //telemetry.addData("Strafe Speed", strafeSpeed);
