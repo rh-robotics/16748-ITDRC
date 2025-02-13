@@ -31,11 +31,13 @@ public class HWC {
   public static double clawClosePos = 0;
   public static double clawTolerance = 0.002;
   public static double jointDefaultPos = 0;
+  public static double jointIntakePos;
   public static double jointScoringPos = 0;
   public static   double armDefaultPos = 0;
-  public static double armPos1 = 0.25;
-  public static double armPos2 = 0.5;
-  public static double armPos3 = 0.75;
+  public static double armVertPos = 0.355;
+  public static double armHorizPos = 0.72;
+  //public static double armPos3 = 0.75;
+    public static int slidesLoweredPos = 0;
   public static int lowBasketPosSlides = 0;
   public static int highBasketPosSlides = 0;
   public static int lowBarPosSlides = 0;
@@ -152,7 +154,7 @@ public class HWC {
         slideLComponent.moveUsingPID();
     }
 
-    public void advancedMove(int slidePosition, int armPosition, int jointPosition){
+    public void advancedMove(int slidePosition, double armPosition, double jointPosition){
         moveSlides(slidePosition);
         armL.setPosition(armPosition);
         armR.setPosition(armPosition);

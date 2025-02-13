@@ -175,7 +175,7 @@ public class StateLevelTeleOp extends OpMode {
 
         //TODO: TEMPORARY ARM CONTROL
         if (gamepad1.dpad_left) {
-            robot.armL.setPosition(robot.armL.getPosition() - 0.005);
+            robot.armL.setPosition(robot.armL.getPosition() + 0.005);
             robot.armR.setPosition(robot.armR.getPosition() + 0.005);
         }
         if (gamepad1.dpad_right) {
@@ -185,6 +185,18 @@ public class StateLevelTeleOp extends OpMode {
         if (gamepad1.dpad_up) {
             robot.armL.setPosition(HWC.armDefaultPos);
            robot.armR.setPosition(HWC.armDefaultPos);
+        }
+        if (gamepad1.a){
+            robot.advancedMove(((robot.leftSlide.getCurrentPosition() + robot.rightSlide.getCurrentPosition())/2), HWC.armVertPos, HWC.jointScoringPos);
+        }
+        else if (gamepad1.b){
+            robot.advancedMove(((robot.leftSlide.getCurrentPosition() + robot.rightSlide.getCurrentPosition())/2), HWC.armHorizPos, HWC.jointScoringPos);
+        }
+        else if (gamepad1.y){
+            robot.advancedMove(HWC.highBasketPosSlides, HWC.armHorizPos,HWC.jointScoringPos);
+        }
+        else if (gamepad1.x){
+            robot.advancedMove(HWC.slidesLoweredPos, HWC.armHorizPos, HWC.jointIntakePos);
         }
 
         //TODO: TEMP JOINT CONTROL
