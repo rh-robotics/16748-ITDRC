@@ -205,6 +205,33 @@ public class HWC {
             lightLeft.setPosition(c);
         }
     }
+    //TODO: ADD AURORAS VISION CODE
+    /*
+
+    public void alignWithPixel(color){
+    int centerX1 = 0;
+    int centerX2 = 0;
+    int centerY1 = 0
+    int centerY2 = 0
+    boolean aligned = false;
+    while (!aligned){
+    if (vision.first x coord > centerx2 || vision.second x coord > centerx){
+    strafe right(math on ((coord1+cord2)/2 -centerx)
+    else if ((vision.first x coord < centerx1 plus or statement){
+    strafe right(math on ((coord1+cord2)/2 -centerx}
+   else if (vision.first y coord > centery2 || vision.second y coord > centery){
+    forward (math on ((coord1+cord2)/2 -centerx)
+    }
+    else if ((vision.first y coord < centery1 plus or statement){
+    back (math on ((coordy+cord2)/2 -centery)
+    }
+    else{
+    aligned = true;}
+    }
+    }
+
+         */
+
 }
 
 

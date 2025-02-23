@@ -225,18 +225,27 @@ public class StateLevelTeleOp extends OpMode {
         }
         */
         //Advanced Control
+
+        //Move to High Basket
         if (gamepad1.dpad_up){
             robot.advancedMove(HWC.highBasketPosSlides, HWC.armHorizPos,HWC.jointScoringPos);
         }
+        //Move to Low Basket
         if (gamepad1.dpad_down){
             robot.advancedMove(HWC.lowBasketPosSlides, HWC.armHorizPos,HWC.jointScoringPos);
         }
+        //Move to High Bar
         if (gamepad1.dpad_left){
             robot.advancedMove(HWC.highBarPosSlides, HWC.armHorizPos,HWC.jointScoringPos);
         }
+        //Move to Low Bar
         if (gamepad1.dpad_right){
             robot.advancedMove(HWC.lowBarPosSlides, HWC.armHorizPos,HWC.jointScoringPos);
         }
+
+        //TODO: Add Aurora's vison code
+
+
 
 
 
