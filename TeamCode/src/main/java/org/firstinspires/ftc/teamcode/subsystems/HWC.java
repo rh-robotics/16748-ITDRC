@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import android.graphics.Color;
+
 import androidx.annotation.NonNull;
 
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -11,6 +13,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.JavaUtil;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.subsystems.pid.RobotComponents;
 import org.firstinspires.ftc.teamcode.subsystems.roadrunner.util.Encoder;
@@ -21,34 +24,33 @@ import org.firstinspires.ftc.teamcode.subsystems.roadrunner.util.Encoder;
 public class HWC {
     // Declare empty variables for robot hardware
     public DcMotorEx leftFront, rightFront, leftRear, rightRear, rightSlide, leftSlide;
-    public Servo jointL, jointR, armL, armR;
-    public Servo claw;
-    public Encoder leftEncoder, rightEncoder,frontEncoder;
+    public Servo jointL, jointR, armL, armR, claw;
+    //not a servo
+    public Servo lightLeft, lightRight;
+    public Encoder leftEncoder, rightEncoder, frontEncoder;
     public RobotComponents slideLComponent, slideRComponent;
 
     // Position Variables
-  public static double clawOpenPos = 0;
-  public static double clawClosePos = 0;
-  public static double clawTolerance = 0.002;
-  public static double jointDefaultPos = 0;
-  public static double jointIntakePos;
-  public static double jointScoringPos = 0;
-  public static   double armDefaultPos = 0;
-  public static double armVertPos = 0.355;
-  public static double armHorizPos = 0.72;
-  //public static double armPos3 = 0.75;
+    public static double clawOpenPos = 0;
+    public static double clawClosePos = 0;
+    public static double clawTolerance = 0.002;
+    public static double jointDefaultPos = 0;
+    public static double jointIntakePos;
+    public static double jointScoringPos = 0;
+    public static double armDefaultPos = 0;
+    public static double armVertPos = 0.355;
+    public static double armHorizPos = 0.72;
+    //public static double armPos3 = 0.75;
+    public static int slidesIntakePos = 0;
     public static int slidesLoweredPos = 0;
-  public static int lowBasketPosSlides = 0;
-  public static int highBasketPosSlides = 0;
-  public static int lowBarPosSlides = 0;
-  public static int highBarPosSlides = 0;
-  public static int climbOnePosSlides = 0;
-  public static int climbTwoPosSlides = 0;
-  public static double slidePPR = 751.8;
-  public static boolean isArmBackwards;
-
-
-
+    public static int lowBasketPosSlides = 0;
+    public static int highBasketPosSlides = 0;
+    public static int lowBarPosSlides = 0;
+    public static int highBarPosSlides = 0;
+    public static int climbOnePosSlides = 0;
+    public static int climbTwoPosSlides = 0;
+    public static double slidePPR = 751.8;
+    public static boolean isArmBackwards;
 
 
     // Other Variables
@@ -61,6 +63,7 @@ public class HWC {
     Telemetry telemetry;
     ElapsedTime time = new ElapsedTime();
     ElapsedTime sleepTimer = new ElapsedTime();
+
     /**
      * Constructor for HWC, declares all hardware components
      *
@@ -81,11 +84,16 @@ public class HWC {
         rightSlide = hardwareMap.get(DcMotorEx.class, "RSlide");
 
         //Declare Servos
-       claw = hardwareMap.get(Servo.class, "claw");
+        claw = hardwareMap.get(Servo.class, "claw");
         armL = hardwareMap.get(Servo.class, "armL");
-        armR =  hardwareMap.get(Servo.class, "armR");
+        armR = hardwareMap.get(Servo.class, "armR");
         jointL = hardwareMap.get(Servo.class, "jointL");
         jointR = hardwareMap.get(Servo.class, "jointR");
+
+        //Declare Lights
+        lightLeft = hardwareMap.get(Servo.class, "lightL");
+        lightRight = hardwareMap.get(Servo.class, "lightR");
+
 
         //Declares OdoWheels
         leftEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "leftRear"));
@@ -138,47 +146,65 @@ public class HWC {
     }
     // TODO: ADD ANY HARDWARE RELATED FUNCTIONS BELOW
 
-    public static void betterSleep(double secs){
+    public static void betterSleep(double secs) {
         ElapsedTime sleepTimer = new ElapsedTime();
         sleepTimer.reset();
-        while (sleepTimer.seconds() < secs){
+        while (sleepTimer.seconds() < secs) {
 
         }
 
     }
 
-    public void moveSlides(int position){
+    public void moveSlides(int position) {
         slideLComponent.setTarget(position);
         slideRComponent.setTarget(position);
         slideRComponent.moveUsingPID();
         slideLComponent.moveUsingPID();
     }
 
-    public void advancedMove(int slidePosition, double armPosition, double jointPosition){
+    public void advancedMove(int slidePosition, double armPosition, double jointPosition) {
         moveSlides(slidePosition);
         armL.setPosition(armPosition);
         armR.setPosition(armPosition);
         jointL.setPosition(jointPosition);
         jointR.setPosition(jointPosition);
     }
+
     public void climb(boolean firstClimb) {
-        if (firstClimb){
+        if (firstClimb) {
             moveSlides(climbOnePosSlides);
-        }
-        else{
+        } else {
             moveSlides(climbTwoPosSlides);
         }
     }
 
-    public void toggleClaw(){
-        if (claw.getPosition() == clawOpenPos){
-        claw.setPosition(clawClosePos);
-        }
-        else if (claw.getPosition() == clawClosePos){
+    public void toggleClaw() {
+        if (claw.getPosition() == clawOpenPos) {
+            claw.setPosition(clawClosePos);
+        } else if (claw.getPosition() == clawClosePos) {
             claw.setPosition(clawOpenPos);
         }
     }
 
+    public void lightLights(Lights color, char side) {
+        double c = 0;
+        if (color == Lights.BLUE) c = .611;
+        if (color == Lights.RED) c = .279;
+        if (color == Lights.GREEN) c = .5;
+        if (color == Lights.PURPLE) c = .722;
+        if (color == Lights.WHITE) c = 1;
+        if (color == Lights.YELLOW) c = .388;
 
+        if (side == 'L') {
+            lightLeft.setPosition(c);
 
+        } else if (side == 'R') {
+            lightRight.setPosition(c);
+        } else {
+            lightRight.setPosition(c);
+            lightLeft.setPosition(c);
+        }
+    }
 }
+
+

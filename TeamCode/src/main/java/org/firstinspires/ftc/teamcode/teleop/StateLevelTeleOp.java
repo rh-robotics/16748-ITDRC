@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.subsystems.DeliveryStates;
 import org.firstinspires.ftc.teamcode.subsystems.GamePlayStates;
 import org.firstinspires.ftc.teamcode.subsystems.HWC;
+import org.firstinspires.ftc.teamcode.subsystems.Lights;
 
 /**
  * TeleOp OpMode for simply driving with strafing wheels
@@ -147,8 +148,9 @@ public class StateLevelTeleOp extends OpMode {
         robot.leftSlide.setPower(gamepad2.left_stick_y);
 
 
+
         //TODO: TEMPORARY CLAW CONTROL
-        if (gamepad1.left_bumper){
+        if (gamepad2.left_bumper){
             robot.claw.setPosition(robot.clawOpenPos);
         }
        if (gamepad2.right_bumper){
@@ -163,15 +165,7 @@ public class StateLevelTeleOp extends OpMode {
         }
 
         
-        //TODO: TEMPORARY JOINT CONTROL
-        if (gamepad2.a) {
-            robot.jointR.setPosition(robot.jointR.getPosition() + 0.005);
-            robot.jointL.setPosition(robot.jointL.getPosition() + 0.005);
-        }
-        if (gamepad2.b) {
-            robot.jointL.setPosition(robot.jointL.getPosition() - 0.005);
-            robot.jointR.setPosition(robot.jointR.getPosition() - 0.005);
-        }
+
 
         //TODO: TEMPORARY ARM CONTROL
         if (gamepad1.dpad_left) {
@@ -186,17 +180,21 @@ public class StateLevelTeleOp extends OpMode {
             robot.armL.setPosition(HWC.armDefaultPos);
            robot.armR.setPosition(HWC.armDefaultPos);
         }
+        //different scoring? more for testing
         if (gamepad1.a){
             robot.advancedMove(((robot.leftSlide.getCurrentPosition() + robot.rightSlide.getCurrentPosition())/2), HWC.armVertPos, HWC.jointScoringPos);
         }
+        // Move arm/joint to scoring
         else if (gamepad1.b){
             robot.advancedMove(((robot.leftSlide.getCurrentPosition() + robot.rightSlide.getCurrentPosition())/2), HWC.armHorizPos, HWC.jointScoringPos);
         }
+        //Move to high basket scoring
         else if (gamepad1.y){
             robot.advancedMove(HWC.highBasketPosSlides, HWC.armHorizPos,HWC.jointScoringPos);
         }
+        //Move to Intake
         else if (gamepad1.x){
-            robot.advancedMove(HWC.slidesLoweredPos, HWC.armHorizPos, HWC.jointIntakePos);
+            robot.advancedMove(HWC.slidesIntakePos, HWC.armHorizPos, HWC.jointIntakePos);
         }
 
         //TODO: TEMP JOINT CONTROL
@@ -216,9 +214,31 @@ public class StateLevelTeleOp extends OpMode {
 
 
         //TODO: ADD RUMBLE METHODS
-        if (gamepad1.left_stick_button) gamepad1.rumble(2000);
+      //  if (gamepad1.left_stick_button) gamepad1.rumble(2000);
 
-        //TODO: Better control?
+        //TODO: light control
+        /*
+        if (gamepad1.right_stick_button)
+            robot.lightLights(Lights.RED, 'l');
+        if (gamepad1.touchpad){
+            robot.lightLights(Lights.BLUE, 'B');
+        }
+        */
+        //Advanced Control
+        if (gamepad1.dpad_up){
+            robot.advancedMove(HWC.highBasketPosSlides, HWC.armHorizPos,HWC.jointScoringPos);
+        }
+        if (gamepad1.dpad_down){
+            robot.advancedMove(HWC.lowBasketPosSlides, HWC.armHorizPos,HWC.jointScoringPos);
+        }
+        if (gamepad1.dpad_left){
+            robot.advancedMove(HWC.highBarPosSlides, HWC.armHorizPos,HWC.jointScoringPos);
+        }
+        if (gamepad1.dpad_right){
+            robot.advancedMove(HWC.lowBarPosSlides, HWC.armHorizPos,HWC.jointScoringPos);
+        }
+
+
 
 
         switch(gameState){
