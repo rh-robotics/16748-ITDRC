@@ -32,22 +32,35 @@ public class HWC {
 
     // Position Variables
     public static double clawOpenPos = 0;
-    public static double clawClosePos = 0;
+    //TODO: Needs to be set
+    public static double clawClosePos = 0.5;
     public static double clawTolerance = 0.002;
     public static double jointDefaultPos = 0;
-    public static double jointIntakePos;
+    //TODO: Needs to be set
+    public static double jointIntakePos = 0;
+    //TODO: Needs to be set
     public static double jointScoringPos = 0;
     public static double armDefaultPos = 0;
     public static double armVertPos = 0.355;
     public static double armHorizPos = 0.72;
+    //TODO: Needs to be set
+    public static double armBasketScoringPos = 0.66;
     //public static double armPos3 = 0.75;
+    //TODO: Needs to be set
     public static int slidesIntakePos = 0;
+    //TODO: Needs to be set
     public static int slidesLoweredPos = 0;
+    //TODO: Needs to be set
     public static int lowBasketPosSlides = 0;
+    //TODO: Needs to be set
     public static int highBasketPosSlides = 0;
+    //TODO: Needs to be set
     public static int lowBarPosSlides = 0;
+    //TODO: Needs to be set
     public static int highBarPosSlides = 0;
+    //TODO: Needs to be set
     public static int climbOnePosSlides = 0;
+    //TODO: Needs to be set
     public static int climbTwoPosSlides = 0;
     public static double slidePPR = 751.8;
     public static boolean isArmBackwards;
@@ -140,8 +153,8 @@ public class HWC {
         jointL.setDirection(Servo.Direction.FORWARD);
         jointR.setDirection(Servo.Direction.REVERSE);
         //TODO: TUNE THESE VALUES
-        slideLComponent = new RobotComponents(leftSlide, slidePPR, 0, 0, 0, 0);
-        slideRComponent = new RobotComponents(rightSlide, slidePPR, 0, 0, 0, 0);
+        slideLComponent = new RobotComponents(leftSlide, slidePPR, 0.02, 0, 0.0005, 0);
+        slideRComponent = new RobotComponents(rightSlide, slidePPR, 0.02, 0, 0.0005, 0);
 
     }
     // TODO: ADD ANY HARDWARE RELATED FUNCTIONS BELOW

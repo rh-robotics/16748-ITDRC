@@ -144,43 +144,39 @@ public class StateLevelTeleOp extends OpMode {
 
 
         //TODO: TEMPORARY SLIDE CONTROL
-        robot.rightSlide.setPower(gamepad2.left_stick_y);
-        robot.leftSlide.setPower(gamepad2.left_stick_y);
-
-
+        //NEEDS TO BE DELELETED TO USE PUD
+        /*if (gamepad2.left_stick_y !=0) {
+            robot.rightSlide.setPower(gamepad2.left_stick_y);
+            robot.leftSlide.setPower(gamepad2.left_stick_y);
+        }
+*/
 
         //TODO: TEMPORARY CLAW CONTROL
-        if (gamepad2.left_bumper){
+        if (gamepad1.left_bumper){
             robot.claw.setPosition(robot.clawOpenPos);
         }
-       if (gamepad2.right_bumper){
+       if (gamepad1.right_bumper){
             robot.claw.setPosition(robot.clawClosePos);
-        }
-
-        if (gamepad2.dpad_left){
-            robot.slideLComponent.setTarget(-3000);
-            robot.slideLComponent.moveUsingPID();
-            robot.slideRComponent.setTarget(-3000);
-            robot.slideRComponent.moveUsingPID();
         }
 
         
 
 
         //TODO: TEMPORARY ARM CONTROL
-        if (gamepad1.dpad_left) {
+        if (gamepad2.dpad_left) {
             robot.armL.setPosition(robot.armL.getPosition() + 0.005);
             robot.armR.setPosition(robot.armR.getPosition() + 0.005);
         }
-        if (gamepad1.dpad_right) {
+        if (gamepad2.dpad_right) {
             robot.armL.setPosition(robot.armL.getPosition() - 0.005);
             robot.armR.setPosition(robot.armR.getPosition() - 0.005);
         }
-        if (gamepad1.dpad_up) {
+        if (gamepad2.dpad_up) {
             robot.armL.setPosition(HWC.armDefaultPos);
            robot.armR.setPosition(HWC.armDefaultPos);
         }
         //different scoring? more for testing
+        /*
         if (gamepad1.a){
             robot.advancedMove(((robot.leftSlide.getCurrentPosition() + robot.rightSlide.getCurrentPosition())/2), HWC.armVertPos, HWC.jointScoringPos);
         }
@@ -196,18 +192,18 @@ public class StateLevelTeleOp extends OpMode {
         else if (gamepad1.x){
             robot.advancedMove(HWC.slidesIntakePos, HWC.armHorizPos, HWC.jointIntakePos);
         }
-
+*/
         //TODO: TEMP JOINT CONTROL
-        if (gamepad1.left_bumper){
+        if (gamepad2.left_bumper){
             robot.jointL.setPosition(robot.jointL.getPosition() - 0.005);
             robot.jointR.setPosition(robot.jointR.getPosition() - 0.005);
         }
-        else if (gamepad1.right_bumper){
+        else if (gamepad2.right_bumper){
             robot.jointL.setPosition(robot.jointL.getPosition() + 0.005);
             robot.jointR.setPosition(robot.jointR.getPosition() + 0.005);
         }
 
-        if (gamepad1.dpad_down){
+        if (gamepad2.left_stick_button){
             robot.jointL.setPosition(HWC.jointDefaultPos);
             robot.jointR.setPosition(HWC.jointDefaultPos);
         }
@@ -242,6 +238,8 @@ public class StateLevelTeleOp extends OpMode {
         if (gamepad1.dpad_right){
             robot.advancedMove(HWC.lowBarPosSlides, HWC.armHorizPos,HWC.jointScoringPos);
         }
+
+
 
         //TODO: Add Aurora's vison code
 
