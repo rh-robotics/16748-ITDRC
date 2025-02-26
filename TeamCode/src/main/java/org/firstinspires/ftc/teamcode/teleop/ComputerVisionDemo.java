@@ -2,18 +2,16 @@ package org.firstinspires.ftc.teamcode.teleop;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.subsystems.ObjRecPipeline;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
-import org.openftc.easyopencv.OpenCvWebcam;
 
 import java.util.Locale;
 
-@TeleOp(name = "Vision Test", group = "Iterative OpMode")
-public class VisionTest extends OpMode {
+@TeleOp(name = "Computer Vision Demo", group = "Iterative OpMode")
+public class ComputerVisionDemo extends OpMode {
     OpenCvCamera camera;
     ObjRecPipeline pipeline = new ObjRecPipeline(10, 20);
 
@@ -67,6 +65,29 @@ public class VisionTest extends OpMode {
 
     @Override
     public void loop() {
-        telemetry.addData("CV", Integer.toString(pipeline.getBlocks().size()));
+        int[][] vertices = new int[3][];
+        vertices = pipeline.getVertices();
+
+        String r = "";
+        for (int n : vertices[0]) {
+            r += Integer.toString(n);
+            r += ", ";
+        }
+
+        String y = "";
+        for (int n : vertices[1]) {
+            y += Integer.toString(n);
+            y += ", ";
+        }
+
+        String b = "";
+        for (int n : vertices[2]) {
+            b += Integer.toString(n);
+            b += ", ";
+        }
+
+        telemetry.addData("Red", r);
+        telemetry.addData("Yellow", y);
+        telemetry.addData("Blue", b);
     }
 }

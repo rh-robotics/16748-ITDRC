@@ -31,6 +31,40 @@ public class ObjRecPipeline extends OpenCvPipeline {
         return blocks;
     }
 
+    public int[][] getVertices() {
+        ArrayList<Integer> r = new ArrayList<Integer>();
+        ArrayList<Integer> y = new ArrayList<Integer>();
+        ArrayList<Integer> b = new ArrayList<Integer>();
+
+        for (int i = 0; i < blocks.size(); i++) {
+            ColorBlock block = blocks.get(i);
+            if (block.getColor() == Color.RED) {
+                for (int n : block.getVertices()) {
+                    r.add(n);
+                }
+            } else if (block.getColor() == Color.YELLOW) {
+                for (int n : block.getVertices()) {
+                    y.add(n);
+                }
+            } else if (block.getColor() == Color.BLUE) {
+                for (int n : block.getVertices()) {
+                    b.add(n);
+                }
+            }
+        }
+
+        int[][] ret = new int[3][];
+        ret[0] = new int[r.size()];
+        ret[1] = new int[y.size()];
+        ret[2] = new int[b.size()];
+
+        ret[0] = r.stream().mapToInt(i -> i).toArray();
+        ret[1] = y.stream().mapToInt(i -> i).toArray();
+        ret[2] = b.stream().mapToInt(i -> i).toArray();
+
+        return ret;
+    }
+
     private void genGrid(Mat mat) {
         grid = new ColorLine[mat.rows() / sectionSize][];
 
@@ -46,7 +80,7 @@ public class ObjRecPipeline extends OpenCvPipeline {
         Color lColor = colorSample(mat, 0, yMin); // Last color
         int start = 0;
 
-        for (int vSec = 1; vSec < (mat.cols() / sectionSize); vSec++) { // - 1?
+        for (int vSec = 1; vSec < (mat.cols() / sectionSize); vSec++) {
             Color cColor = colorSample(mat, vSec * sectionSize, yMin); // Current color
 
             if (lColor != Color.OTHER && cColor != lColor) {
@@ -124,6 +158,11 @@ public class ObjRecPipeline extends OpenCvPipeline {
             if (blocks.get(i).isEmpty() || blocks.get(i).size() < 4 * sectionSize / 10) {
                 blocks.remove(i);
             }
+        }
+
+        // Colorize
+        for (int i = 0; i < blocks.size(); i++) {
+            blocks.get(i).setColor();
         }
     }
 
