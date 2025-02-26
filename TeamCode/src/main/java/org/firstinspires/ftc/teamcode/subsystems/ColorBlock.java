@@ -44,55 +44,52 @@ public class ColorBlock {
         return color;
     }
 
-    public Point2[] getVertices() {
+    /**
+     *
+     * @return List of color block's vertices: indexes 0 and 1 are the x and y values of the top
+     * vertex respectively, indexes 2 and 3 are x and y values of the right vertex, 4 and 5 are x and
+     * y values of bottom vertex, and 6 and 7 are x and y of left vertex
+     */
+    public int[] getVertices() {
         if (lines.isEmpty()) {
             return null;
         }
 
-        Point2[] ret = new Point2[4];
+        int[] ret = { 0, 999999, -1, 0, 0, -1, 999999, 0 };
 
-        int yMin = 999999;
-        int yMinXMin = 999999; // minimum x value corresponding to yMin value
-        int yMinXMax = -1; // maximum x value corresponding to yMax value
-
-        int yMax = -1;
-        int yMaxXMin = 999999; // minimum x value corresponding to yMax value
-        int yMaxXMax = -1; // maximum x value corresponding to yMax value
-
-        for (int i = 0; i < lines.size(); i++) {
-            ColorLine line = lines.get(i);
-
-            if (line.getRow() * segSize < yMin) {
-                yMin = line.getRow() * segSize;
-
-                yMinXMin = line.getStart() * segSize;
-                yMinXMax = line.getEnd() * segSize;
-            } else if (line.getRow() * segSize == yMin) {
-                if (line.getStart() * segSize < yMinXMin) {
-                    yMinXMin = line.getStart() * segSize;
-                } else if (line.getEnd() * segSize > yMinXMax) {
-                    yMinXMax = line.getEnd() * segSize;
-                }
+        for (ColorLine line : lines) {
+            // top (left priority)
+            if (line.getRow() < ret[1]) {
+                ret[0] = segSize * line.getStart();
+                ret[1] = segSize * line.getRow();
+            } else if (line.getRow() == ret[1] && line.getStart() < ret[0]) {
+                ret[0] = segSize * line.getStart();
             }
 
-            if (line.getRow() * segSize > yMax) {
-                yMax = line.getRow() * segSize;
+            // right (top priority)
+            if (line.getEnd() > ret[2]) {
+                ret[2] = segSize * line.getEnd();
+                ret[3] = segSize * line.getRow();
+            } else if (line.getEnd() == ret[2] && line.getRow() < ret[3]) {
+                ret[3] = segSize * line.getRow();
+            }
 
-                yMaxXMin = line.getStart() * segSize;
-                yMaxXMax = line.getEnd() * segSize;
-            } else if (line.getRow() * segSize == yMax) {
-                if (line.getStart() * segSize < yMaxXMin) {
-                    yMaxXMin = line.getStart() * segSize;
-                } else if (line.getEnd() * segSize > yMaxXMax) {
-                    yMaxXMax = line.getEnd() * segSize;
-                }
+            // bottom (right priority)
+            if (line.getRow() > ret[5]) {
+                ret[4] = segSize * line.getEnd();
+                ret[5] = segSize * line.getRow();
+            } else if (line.getRow() == ret[5] && line.getEnd() > ret[4]) {
+                ret[4] = segSize * line.getEnd();
+            }
+
+            // left (bottom priority)
+            if (line.getStart() < ret[6]) {
+                ret[6] = segSize * line.getStart();
+                ret[7] = segSize * line.getRow();
+            } else if (line.getStart() == ret[6] && line.getRow() > ret[7]) {
+                ret[7] = segSize * line.getRow();
             }
         }
-
-        ret[0] = new Point2(yMinXMin, yMin);
-        ret[1] = new Point2(yMinXMax, yMin);
-        ret[2] = new Point2(yMaxXMin, yMax);
-        ret[3] = new Point2(yMaxXMax, yMax);
 
         return ret;
     }
