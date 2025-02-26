@@ -50,14 +50,12 @@ public class HWC {
     public static int slidesIntakePos = 0;
     //TODO: Needs to be set
     public static int slidesLoweredPos = 0;
-    //TODO: Needs to be set
-    public static int lowBasketPosSlides = 0;
-    //TODO: Needs to be set
-    public static int highBasketPosSlides = 0;
-    //TODO: Needs to be set
-    public static int lowBarPosSlides = 0;
-    //TODO: Needs to be set
-    public static int highBarPosSlides = 0;
+
+    public static int lowBasketPosSlides = -3700;
+
+    public static int highBasketPosSlides = -6480;
+    public static int lowBarPosSlides = -1800;
+    public static int highBarPosSlides = -3200;
     //TODO: Needs to be set
     public static int climbOnePosSlides = 0;
     //TODO: Needs to be set
