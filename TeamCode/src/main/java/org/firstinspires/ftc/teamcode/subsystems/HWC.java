@@ -5,16 +5,21 @@ import android.graphics.Color;
 import androidx.annotation.NonNull;
 
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.ColorRangeSensor;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.JavaUtil;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.subsystems.pid.RobotComponents;
 import org.firstinspires.ftc.teamcode.subsystems.roadrunner.util.Encoder;
 
@@ -27,6 +32,8 @@ public class HWC {
     public Servo jointL, jointR, armL, armR, claw;
     //not a servo
     public Servo lightLeft, lightRight;
+    //Color Sensors
+    public ColorRangeSensor colorL, colorR;
     public Encoder leftEncoder, rightEncoder, frontEncoder;
     public RobotComponents slideLComponent, slideRComponent;
 
@@ -105,6 +112,9 @@ public class HWC {
         lightLeft = hardwareMap.get(Servo.class, "lightL");
         lightRight = hardwareMap.get(Servo.class, "lightR");
 
+        //Color Sensors
+        colorL = hardwareMap.get(ColorRangeSensor.class, "colorL");
+        colorR = hardwareMap.get(ColorRangeSensor.class, "colorR");
 
         //Declares OdoWheels
         leftEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "leftRear"));
@@ -215,6 +225,30 @@ public class HWC {
             lightRight.setPosition(c);
             lightLeft.setPosition(c);
         }
+    }
+    public void autoAlign(int distance, double tolerance){
+       while ((colorL.getDistance(DistanceUnit.CM) +colorR.getDistance(DistanceUnit.CM) /2) != distance + tolerance || (colorL.getDistance(DistanceUnit.CM) +colorR.getDistance(DistanceUnit.CM) /2) != distance - tolerance ) {
+           if (colorL.getDistance(DistanceUnit.CM) > distance + tolerance) {
+               leftFront.setPower(0.1);
+               leftRear.setPower(0.1);
+           }
+           else if (colorL.getDistance(DistanceUnit.CM) < distance - tolerance) {
+               leftFront.setPower(-0.1);
+               leftRear.setPower(-0.1);
+           }
+           if (colorR.getDistance(DistanceUnit.CM) > distance + tolerance) {
+               rightFront.setPower(0.1);
+               rightRear.setPower(0.1);
+           }
+           else if (colorR.getDistance(DistanceUnit.CM) < distance - tolerance) {
+               rightFront.setPower(-0.1);
+               rightRear.setPower(-0.1);
+           }
+       }
+           leftFront.setPower(0);
+           leftRear.setPower(0);
+           rightFront.setPower(0);
+           rightRear.setPower(0);
     }
     //TODO: ADD AURORAS VISION CODE
     /*

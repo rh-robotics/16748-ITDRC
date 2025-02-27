@@ -240,6 +240,10 @@ public class StateLevelTeleOp extends OpMode {
         }
 
 
+        //TODO: Testing Alignment
+        if (gamepad1.touchpad){
+            robot.autoAlign(3, 0.3);
+        }
 
         //TODO: Add Aurora's vison code
 
