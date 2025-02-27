@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.subsystems.DeliveryStates;
 import org.firstinspires.ftc.teamcode.subsystems.GamePlayStates;
 import org.firstinspires.ftc.teamcode.subsystems.HWC;
@@ -296,6 +297,9 @@ public class StateLevelTeleOp extends OpMode {
         telemetry.addData("Arm R Position", robot.armR.getPosition());
         telemetry.addData("Joint R Position", robot.jointR.getPosition());
         telemetry.addData("Joint L Position", robot.jointL.getPosition());
+        telemetry.addData("Distance L", robot.colorL.getDistance(DistanceUnit.CM));
+        telemetry.addData("Distance R", robot.colorR.getDistance(DistanceUnit.CM));
+        telemetry.update();
 
         telemetry.update();
     }

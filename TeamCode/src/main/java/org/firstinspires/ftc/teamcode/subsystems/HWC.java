@@ -226,31 +226,36 @@ public class HWC {
             lightLeft.setPosition(c);
         }
     }
-    public void autoAlign(int distance, double tolerance){
-       while ((colorL.getDistance(DistanceUnit.CM) +colorR.getDistance(DistanceUnit.CM) /2) != distance + tolerance || (colorL.getDistance(DistanceUnit.CM) +colorR.getDistance(DistanceUnit.CM) /2) != distance - tolerance ) {
-           if (colorL.getDistance(DistanceUnit.CM) > distance + tolerance) {
-               leftFront.setPower(0.1);
-               leftRear.setPower(0.1);
-           }
-           else if (colorL.getDistance(DistanceUnit.CM) < distance - tolerance) {
-               leftFront.setPower(-0.1);
-               leftRear.setPower(-0.1);
-           }
-           if (colorR.getDistance(DistanceUnit.CM) > distance + tolerance) {
-               rightFront.setPower(0.1);
-               rightRear.setPower(0.1);
-           }
-           else if (colorR.getDistance(DistanceUnit.CM) < distance - tolerance) {
-               rightFront.setPower(-0.1);
-               rightRear.setPower(-0.1);
-           }
-       }
-           leftFront.setPower(0);
-           leftRear.setPower(0);
-           rightFront.setPower(0);
-           rightRear.setPower(0);
-    }
-    //TODO: ADD AURORAS VISION CODE
+    public boolean autoAlign(int distance, double tolerance) {
+        // while ((colorL.getDistance(DistanceUnit.CM) +colorR.getDistance(DistanceUnit.CM) /2) != distance + tolerance || (colorL.getDistance(DistanceUnit.CM) +colorR.getDistance(DistanceUnit.CM) /2) != distance - tolerance )
+        telemetry.addData("Distance L", colorL.getDistance(DistanceUnit.CM));
+        telemetry.addData("Distance R", colorR.getDistance(DistanceUnit.CM));
+        telemetry.update();
+        double pow = 0.3;
+            if (colorL.getDistance(DistanceUnit.CM) > distance + tolerance) {
+                leftFront.setPower(pow);
+                leftRear.setPower(pow);
+            } else if (colorL.getDistance(DistanceUnit.CM) < distance - tolerance) {
+                leftFront.setPower(-pow);
+                leftRear.setPower(-pow);
+            }
+            if (colorR.getDistance(DistanceUnit.CM) > distance + tolerance) {
+                rightFront.setPower(-pow);
+                rightRear.setPower(-pow);
+            } else if (colorR.getDistance(DistanceUnit.CM) < distance - tolerance) {
+                rightFront.setPower(pow);
+                rightRear.setPower(pow);
+            }
+            if ((colorL.getDistance(DistanceUnit.CM) + colorR.getDistance(DistanceUnit.CM) / 2) != distance + tolerance || (colorL.getDistance(DistanceUnit.CM) + colorR.getDistance(DistanceUnit.CM) / 2) != distance - tolerance) {
+                leftFront.setPower(0);
+                leftRear.setPower(0);
+                rightFront.setPower(0);
+                rightRear.setPower(0);
+                return true;
+            }
+            return false;
+        }
+        //TODO: ADD AURORAS VISION CODE
     /*
 
     public void alignWithPixel(color){
@@ -276,6 +281,7 @@ public class HWC {
     }
 
          */
+
 
 }
 
